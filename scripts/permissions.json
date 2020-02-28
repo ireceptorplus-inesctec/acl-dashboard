@@ -1,0 +1,26 @@
+[
+	{
+		"id": "77ecc9d2-587d-4fef-97d5-42fd06c55c35",
+		"name": "Default Permission",
+		"policy": {
+			"id": "994c8d63-3ac0-4d4b-af15-dcd48a942597",
+			"name": "Default Policy"
+		},
+		"resource": {
+			"id": "null",
+			"name": "null"
+		}
+	}
+	,{
+		"id": "82023dbf-0724-4925-b14f-d03b98d9e0bc",
+		"name": "lala",
+		"policy": {
+			"id": "ba037b97-20cc-4b45-bc19-8235f9050c99",
+			"name": "edgar_policy"
+		},
+		"resource": {
+			"id": "b6658985-7f7a-4f09-8777-edb69b2f813b",
+			"name": "study_toy_study"
+		}
+	}
+]
