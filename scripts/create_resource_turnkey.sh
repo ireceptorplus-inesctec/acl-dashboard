@@ -55,10 +55,10 @@ EOF
 pat=$(curl -X POST \
     -H "Content-Type: application/x-www-form-urlencoded" \
     -d 'grant_type=client_credentials&client_id=turnkey&client_secret=0ed88b46-ed70-4af9-ba19-1b98d33319a8' \
-    "http://ireceptorplus.inesctec.pt:9004/auth/realms/iReceptorPlus/protocol/openid-connect/token" | jq ".access_token" | tr -d '"')
+    "https://ireceptorplus.inesctec.pt/auth/realms/iReceptorPlus/protocol/openid-connect/token" | jq ".access_token" | tr -d '"')
 
 curl -X POST \
     -H "Content-Type: application/json" \
     -H "Authorization: Bearer $pat" \
     -d "$request_body" \
-    "http://ireceptorplus.inesctec.pt:9004/auth/realms/iReceptorPlus/authz/protection/resource_set"
+    "https://ireceptorplus.inesctec.pt/auth/realms/iReceptorPlus/authz/protection/resource_set"
