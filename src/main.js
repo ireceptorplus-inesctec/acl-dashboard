@@ -2,10 +2,19 @@ import Vue from 'vue'
 import App from './App.vue'
 import VueLogger from 'vuejs-logger'
 
-import Keycloak from 'keycloak-js'
-import keycloakJson from './assets/keycloak.json'
+import VueRouter from 'vue-router'
+import router from './router'
+
+// import Keycloak from 'keycloak-js'
+// import keycloakJson from './assets/keycloak.json'
+import vuetify from './plugins/vuetify';
+
+import 'material-design-icons-iconfont/dist/material-design-icons.css'
+const axios = require('axios')
 
 Vue.config.productionTip = false
+
+Vue.use(VueRouter)
 
 const loggerOptions = {
   isEnabled: true,
@@ -23,46 +32,68 @@ Vue.use(VueLogger, loggerOptions)
 //   render: h => h(App),
 // }).$mount('#app')
 
-let initOptions = {
-  url: keycloakJson['auth-server-url'],
-  realm: keycloakJson['realm'],
-  clientId: keycloakJson['resource'],
-  onLoad: 'login-required'
-}
+// let initOptions = {
+//   url: keycloakJson['auth-server-url'],
+//   realm: keycloakJson['realm'],
+//   clientId: keycloakJson['resource'],
+//   onLoad: 'login-required'
+// }
 
-let keycloak = Keycloak(initOptions)
+// let keycloak = Keycloak(initOptions)
 
-keycloak.init({ onLoad: initOptions.onLoad }).then((auth) => {
+// keycloak.init({ onLoad: initOptions.onLoad }).then((auth) => {
 
-  if (!auth) {
-    window.location.reload()
-  } else {
-    Vue.$log.info("Authenticated")
-  }
+  // if (!auth) {
+  //   window.location.reload()
+  // } else {
+  //   Vue.$log.info("Authenticated")
+  // }
 
   new Vue({
-    render: h => h(App),
+    router,
+    vuetify,
+    icons: {
+      iconfont: 'md'
+    },
+    render: h => h(App)
   }).$mount('#app')
 
-  localStorage.setItem('access-token', keycloak.token)
-  localStorage.setItem('refresh-token', keycloak.refreshToken)
+  // localStorage.setItem('access-token', keycloak.token)
+  // localStorage.setItem('refresh-token', keycloak.refreshToken)
 
   setInterval(() => {
-    keycloak.updateToken(70).success((refreshed) => {
+    if (localStorage.getItem('access-token') &&
+        localStorage.getItem('refresh-token')) {
+          // TODO - remove immunedb
+          let url = process.env.VUE_APP_BACKEND_URL + 'refresh/turnkey'
+          let data = 'refresh_token=' + localStorage.getItem('refresh-token')
 
-      if (refreshed) {
-        Vue.$log.debug('Token refreshed ' + refreshed)
-      } else {
-        Vue.$log.warn('Token not refreshed, valid for '
-        + Math.round(keycloak.tokenParsed.exp + keycloak.timeSkew - new Date().getTime() / 1000)
-        + ' seconds')
-      }
-
-    }).error(() => {
-      Vue.$log.error('Failed to refresh token')
-    })
+          axios.post(url, data)
+          .then((response) => {
+            localStorage.setItem('access-token', response.data.access_token)
+            localStorage.setItem('refresh-token', response.data.refresh_token)
+            Vue.$log.debug('Token refreshed ' + response.data)
+          })
+          .catch(() => {
+            Vue.$log.error('Failed to refresh token')
+          })
+        }
   }, 60000)
+  //   keycloak.updateToken(70).then((refreshed) => {
+
+  //     if (refreshed) {
+  //       Vue.$log.debug('Token refreshed ' + refreshed)
+  //     } else {
+  //       Vue.$log.warn('Token not refreshed, valid for '
+  //       + Math.round(keycloak.tokenParsed.exp + keycloak.timeSkew - new Date().getTime() / 1000)
+  //       + ' seconds')
+  //     }
+
+  //   }).catch(() => {
+  //     Vue.$log.error('Failed to refresh token')
+  //   })
+  // }, 25000)
   
-}).catch(() => {
-  Vue.$log.error('Authenticated failed')
-})
+// }).catch(() => {
+//   Vue.$log.error('Authenticated failed')
+// })
