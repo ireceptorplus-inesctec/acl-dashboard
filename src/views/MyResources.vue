@@ -25,6 +25,9 @@ export default {
     },
     methods: {
         get_my_requests () {
+            var interv = setInterval(() => {
+                this.get_my_requests()
+            }, 5000)
             let url = process.env.VUE_APP_BACKEND_URL + 'own_resources/' + localStorage.getItem('server')
             let config = {
                 headers: {
@@ -36,10 +39,10 @@ export default {
             .then((response) => {
                 this.resources = response.data
                 this.add_selected_property()
+                clearInterval(interv)
             })
             .catch(() => {
                 this.resources = []
-                this.get_my_requests()
             })
         },
         add_selected_property() {
