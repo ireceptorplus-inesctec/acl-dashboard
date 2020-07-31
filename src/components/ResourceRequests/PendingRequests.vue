@@ -41,7 +41,6 @@
 </template>
 
 <script>
-// import keycloakJson from '../../assets/keycloak.json'
 
 const axios = require('axios')
 
@@ -56,7 +55,7 @@ export default {
     methods: {
         get_pending_requests () {
             let url = process.env.VUE_APP_BACKEND_URL +
-                    'pending_requests/turnkey'
+                    'pending_requests/' + localStorage.getItem('server')
 
             let config = {
                 headers: {
@@ -74,7 +73,7 @@ export default {
         },
         accept(index) {
             let url = process.env.VUE_APP_BACKEND_URL +
-                    'accept/turnkey/' +
+                    'give_access/' + localStorage.getItem('server') + '/' +
                     this.pending_list[index].id
 
             let config = {
@@ -97,7 +96,7 @@ export default {
         },
         deny(index) {
             let url = process.env.VUE_APP_BACKEND_URL +
-                    'deny/turnkey/' +
+                    'deny/' + localStorage.getItem('server') + '/' +
                     this.pending_list[index].id
 
             let config = {

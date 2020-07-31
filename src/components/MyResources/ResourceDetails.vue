@@ -17,7 +17,7 @@
                     </v-list-item-avatar>
 
                     <v-list-item-content class="name">
-                        <v-list-item-title>{{ detail.users[0] }}</v-list-item-title>
+                        <v-list-item-title>{{ detail.user }}</v-list-item-title>
                     </v-list-item-content>
 
                     <v-list-item-content>
@@ -61,16 +61,16 @@ export default {
 
             var owner_id = this.resources[this.selected].owner.id
 
-            if (this.details[index].users.length > 1) {
-                return
-            }
+            // if (this.details[index].users.length > 1) {
+            //     return
+            // }
 
-            var requester = this.details[index].users[0]
+            var requester = this.details[index].user
 
             var resource_id = this.resources[this.selected]._id
 
             let url = process.env.VUE_APP_BACKEND_URL +
-                        'revoke/turnkey'
+                        'revoke/' + localStorage.getItem('server')
 
             let config = {
                 headers: {

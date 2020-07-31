@@ -55,7 +55,7 @@
 
 <script>
 import router from '@/router'
-// import keycloakJson from '@/assets/keycloak.json'
+import keycloak from '../plugins/keycloak'
 
 const axios = require('axios')
 
@@ -139,7 +139,8 @@ export default {
             // TODO - ver se fica assim
             localStorage.removeItem('access-token')
             localStorage.removeItem('refresh-token')
-            this.$emit('user-is-logged', false)
+            keycloak.logout()
+            // this.$emit('user-is-logged')
         }
     },
     mounted () {

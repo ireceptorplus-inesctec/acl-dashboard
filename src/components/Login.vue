@@ -22,21 +22,34 @@
                  dark
                  @click:append="show_password = !show_password"
                 ></v-text-field>
-                <div>
-                    <a v-if="error" class="error">Invalid credentials</a>
-                    <v-btn class="mx-2 button"
-                     fab
-                     dark
-                     large
-                     @click="login()"
-                    >
-                        <v-icon
+                <v-row>
+                    <v-col class="d-flex" cols="12" sm="4">
+                        <v-select
+                        v-model="selected_server"
+                        :items="servers"
                         dark
+                        label="Choose server">
+                        </v-select>
+                    </v-col>
+                    <v-col cols="12" sm="4">
+                        <p v-if="error" class="error">Invalid credentials</p>
+                        <p v-if="error_server" class="error_server">Choose server</p>
+                    </v-col>
+                    <v-col cols="12" sm="4">
+                        <v-btn class="mx-2 button"
+                        fab
+                        dark
+                        large
+                        @click="login()"
                         >
-                            arrow_forward_ios
-                        </v-icon>
-                    </v-btn>
-                </div>
+                            <v-icon
+                            dark
+                            >
+                                arrow_forward_ios
+                            </v-icon>
+                        </v-btn>
+                    </v-col>
+                </v-row>
             </v-form>
         </v-card>
     </div>
@@ -52,33 +65,40 @@ export default {
             show_password: false,
             username: null,
             password: null,
-            error: false
+            error: false,
+            error_server: false,
+            servers: ['immunedb', 'turnkey', 'scireptor'],
+            selected_server: null
         }
     },
     methods: {
         login() {
-            // TODO - remove immunedb
-            let url = process.env.VUE_APP_BACKEND_URL + 'login/turnkey'
-            let config = {
-                headers: {
-                    'content-type': 'application/x-www-form-urlencoded'
+            if (!this.selected_server) {
+                this.error_server = true
+            } else {
+                this.error_server = false
+                let url = process.env.VUE_APP_BACKEND_URL + 'login/' + this.selected_server
+                let config = {
+                    headers: {
+                        'content-type': 'application/x-www-form-urlencoded'
+                    }
                 }
+                let data = 'username=' + this.username +
+                            '&password=' + this.password
+
+                axios.post(url, data, config)
+                .then((response) => {
+                    this.error = false
+                    localStorage.setItem('access-token', response.data.access_token)
+                    localStorage.setItem('refresh-token', response.data.refresh_token)
+                    localStorage.setItem('server', this.selected_server)
+                    this.$emit('user-is-logged', true)
+                })
+                .catch(() => {
+                    this.error = true
+                    this.$emit('user-is-logged', false)
+                })
             }
-            let data = 'username=' + this.username +
-                        '&password=' + this.password
-
-            axios.post(url, data, config)
-            .then((response) => {
-                this.error = false
-                localStorage.setItem('access-token', response.data.access_token)
-                localStorage.setItem('refresh-token', response.data.refresh_token)
-                this.$emit('user-is-logged', true)
-            })
-            .catch(() => {
-                this.error = true
-                this.$emit('user-is-logged', false)
-            })
-
         }
     }
 }
@@ -110,7 +130,12 @@ export default {
     right: 10%;
 }
 
-.error {
+.error{
+    color: red;
+    padding-left: 5%;
+}
+
+.error_server{
     color: red;
     padding-left: 5%;
 }

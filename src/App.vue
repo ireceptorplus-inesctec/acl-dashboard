@@ -1,50 +1,36 @@
 <template>
   <div>
-    <div v-if="logged">
+    <div>
       <div id="sidebar">
-        <Sidebar @user-is-logged="changeLoginStatus"/>
+        <!-- <Sidebar @user-is-logged="changeLoginStatus"/> -->
+        <Sidebar/>
       </div>
-      <div id="app">
+      <div id="app" data-app>
         <router-view class="view"></router-view>
       </div>
     </div>
-    <Login v-else id="login" @user-is-logged="changeLoginStatus">
-    </Login>
   </div>
   
 </template>
 
 <script>
 import Sidebar from '@/components/Sidebar'
-import Login from '@/components/Login'
-import jwt_decode from 'jwt-decode'
 
 export default {
   name: 'App',
   components: {
-    Sidebar,
-    Login
+    Sidebar
   },
   data () {
     return {
-      logged: false
     }
   },
-  methods: {
-    changeLoginStatus(to) {
-      this.logged = to
-    }
-  },
-  mounted() {
-    if (localStorage.getItem('refresh-token')) {
-      var decoded = jwt_decode(localStorage.getItem('refresh-token'))
-      if (decoded.exp < (new Date().getTime() + 1) / 1000) {
-        this.changeLoginStatus(false)
-      } else {
-        this.changeLoginStatus(true)
-      }
-    }
-  }
+  // methods: {
+  //   changeLoginStatus() {
+
+  //     console.log('TODO')
+  //   }
+  // }
 }
 </script>
 

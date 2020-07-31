@@ -1,6 +1,6 @@
 <template>
   <div id="resources">
-    <ResourcesList class="list" :resources=resources :selected=selected @select-resource="change_selected"></ResourcesList>
+    <ResourcesList class="list" :resources=resources :selected=selected @select-resource="change_selected" @refresh="get_details"></ResourcesList>
     <ResourceDetails class="details" :resources=resources :selected=selected :details=details @refresh="get_details"></ResourceDetails>
   </div>
 </template>
@@ -25,7 +25,7 @@ export default {
     },
     methods: {
         get_my_requests () {
-            let url = process.env.VUE_APP_BACKEND_URL + 'own_resources/turnkey'
+            let url = process.env.VUE_APP_BACKEND_URL + 'own_resources/' + localStorage.getItem('server')
             let config = {
                 headers: {
                     'Authorization': 'Bearer ' + localStorage.getItem('access-token')
@@ -57,7 +57,7 @@ export default {
           var id = this.resources[this.selected]._id
 
           let url = process.env.VUE_APP_BACKEND_URL +
-                      'resource_details/turnkey'
+                      'resource_details/' + localStorage.getItem('server')
 
           let config = {
               headers: {
@@ -69,7 +69,22 @@ export default {
 
           axios.post(url, data, config)
           .then((response) => {
-              this.details = response.data
+              let temp_details = []
+
+              response.data.forEach((ticket) => {
+                let index = temp_details.findIndex(element => element['user'] == ticket['requesterName'])
+                if (index >= 0) {
+                    temp_details[index]['scopes'].push(ticket['scopeName'])
+                } else {
+                    temp_details.push({
+                        'user': ticket['requesterName'],
+                        'scopes': [
+                          ticket['scopeName']
+                        ]
+                    })
+                }
+              })
+              this.details = temp_details
           })
           .catch(() => {
               this.details = null
