@@ -1,5 +1,5 @@
-build site:
-  image: node:6
+build-dist:
+  image: node:12.18.3-alpine3.9
   stage: build
   script:
     - npm install --progress=false
