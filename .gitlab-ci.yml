@@ -3,7 +3,7 @@ build-dist:
   stage: build
   script:
     - npm install --progress=false
-    - npm run build
+    - npm run build-gitlab-ci
   artifacts:
     paths:
       - dist
