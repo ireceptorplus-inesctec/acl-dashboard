@@ -1,9 +1,11 @@
 build-dist:
   image: node:12.18.3-alpine3.9
   stage: build
+  vari
   script:
+    - NODE_ENV=production
     - npm install --progress=false
-    - npm run build-gitlab-ci
+    - npm run build
   artifacts:
     paths:
       - dist
