@@ -33,11 +33,11 @@
             <v-divider/>
 
             <v-list-item
-             v-for="(item, index) in items"
+             v-for="item in items"
              :key="item.title"
-             link
-             v-on:click="goto(index)"
+             :to="{ name: item.linkto }"
              :class="item.selected"
+             link
             >
                 <v-list-item-icon>
                     <v-icon>{{ item.icon }}</v-icon>
@@ -46,7 +46,7 @@
                 <v-list-item-content>
                     <v-list-item-title>{{ item.title }}</v-list-item-title>
                 </v-list-item-content>
-                
+
             </v-list-item>
         </v-navigation-drawer>
 
@@ -54,7 +54,6 @@
 </template>
 
 <script>
-import router from '@/router'
 import keycloak from '../plugins/keycloak'
 
 const axios = require('axios')
@@ -67,38 +66,32 @@ export default {
             user_name: null,
             user_mail: null,
             items: [
-                { title: 'Resource requests', icon: 'create_new_folder', linkto: '/requests', selected: '' },
-                { title: 'My resources', icon: 'folder', linkto: '/resources', selected: '' },
-                { title: 'Shared with me', icon: 'folder_shared', linkto: '/shared', selected: '' },
+                { title: 'Resource requests', icon: 'create_new_folder', linkto: 'requests', selected: '' },
+                { title: 'My resources', icon: 'folder', linkto: 'resources', selected: '' },
+                { title: 'Shared with me', icon: 'folder_shared', linkto: 'shared', selected: '' },
             ],
             color: "#1d1d1d",
             selected: null
         }
     },
     methods: {
-        goto (index) {
-            this.items[this.selected].selected = ''
-            this.selected = index
-            this.items[this.selected].selected = 'selected'
-            router.push(this.items[this.selected].linkto)
-        },
         highlight_selected () {
             switch (window.location.pathname) {
                 case '/requests':
                     this.items[0].selected = 'selected'
                     this.selected = 0
                     break;
-            
+
                 case '/resources':
                     this.items[1].selected = 'selected'
                     this.selected = 1
                     break;
-            
+
                 case '/shared':
                     this.items[2].selected = 'selected'
                     this.selected = 2
                     break;
-            
+
                 default:
                     this.items[0].selected = ''
                     this.items[1].selected = ''
