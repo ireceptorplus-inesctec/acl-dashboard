@@ -6,3 +6,5 @@ module.exports = {
     ? '/dashboard-acl/'
     : '/'
 }
+
+console.log("Deployment envirnoment: ", process.env.NODE_ENV)
