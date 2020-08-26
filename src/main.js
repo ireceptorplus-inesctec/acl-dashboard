@@ -45,6 +45,7 @@ keycloak.init({ onLoad: 'login-required' }).then((auth) => {
     // localStorage.setItem('AUTH_SESSION_ID', keycloak.sessionId + '.keycloak')
     // localStorage.setItem('KEYCLOAK_IDENTITY', keycloak.idToken)
     localStorage.setItem('refresh-token', keycloak.refreshToken)
+    localStorage.setItem('server', 'turnkey')
     new Vue({
       router,
       vuetify,
