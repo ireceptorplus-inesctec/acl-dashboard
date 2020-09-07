@@ -6,7 +6,6 @@
     >
         <v-navigation-drawer
          width="100%"
-         height="90%"
          permanent
          :color="color"
          dark
@@ -48,15 +47,22 @@
                 </v-list-item-content>
 
             </v-list-item>
+            <v-select
+             v-model="selected"
+             :items="servers"
+             dark
+             label="Choose server"
+             class="selectable">
+            </v-select>
         </v-navigation-drawer>
-        <v-navigation-drawer
+        <!-- <v-navigation-drawer
          width="100%"
          height="10%"
          :color="color"
          dark
-        >
+        > -->
             <!-- <v-select
-             v-model="selected_server"
+             v-model="selected"
              :items="servers"
              dark
              label="Choose server"
@@ -79,7 +85,7 @@
                      :key="index"
                      @click="change()">
                         <v-list-item-title>{{ server.title }}</v-list-item-title> -->
-                        <v-btn
+                        <!-- <v-btn
                          color="primary"
                          dark
                          v-for="(server, index) in servers"
@@ -88,10 +94,10 @@
                         >
                             {{ server }}
                         </v-btn>
-                        <h3 class="curr">Current server: {{ this.selected }}</h3>
+                        <h3 class="curr">Current server: {{ this.selected }}</h3> -->
                     <!-- </v-list-item>
                 </v-list> -->
-        </v-navigation-drawer>
+        <!-- </v-navigation-drawer> -->
 
     </v-card>
 </template>
@@ -189,6 +195,11 @@ export default {
         // this.highlight_selected(),
         this.get_user_info()
         this.selected = localStorage.getItem('server')
+    },
+    watch: {
+        selected: function(val) {
+            localStorage.setItem('server', val)
+        }
     }
 }
 </script>
@@ -217,7 +228,9 @@ export default {
     right: 0;
 }
 
-.curr {
-    color: white;
+.selectable {
+    width: 50%;
+    position: absolute;
+    left: 25%;
 }
 </style>
