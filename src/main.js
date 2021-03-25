@@ -31,7 +31,7 @@ Vue.use(VueLogger, loggerOptions)
 //   render: h => h(App),
 // }).$mount('#app')
 
-keycloak.init({ onLoad: 'login-required' }).then((auth) => {
+keycloak.init({ onLoad: 'login-required', 'checkLoginIframe': false }).then((auth) => {
 
   if (!auth) {
     window.location.reload()
@@ -45,7 +45,7 @@ keycloak.init({ onLoad: 'login-required' }).then((auth) => {
     // localStorage.setItem('AUTH_SESSION_ID', keycloak.sessionId + '.keycloak')
     // localStorage.setItem('KEYCLOAK_IDENTITY', keycloak.idToken)
     localStorage.setItem('refresh-token', keycloak.refreshToken)
-    localStorage.setItem('server', 'turnkey')
+    localStorage.setItem('server', 'adc-middleware')
     new Vue({
       router,
       vuetify,

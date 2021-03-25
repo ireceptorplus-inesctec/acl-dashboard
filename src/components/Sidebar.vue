@@ -121,7 +121,7 @@ export default {
             ],
             color: "#1d1d1d",
             selected: null,
-            servers: ['immunedb', 'turnkey', 'scireptor'],
+            servers: ['adc-middleware'],
         }
     },
     methods: {
