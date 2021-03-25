@@ -118,6 +118,7 @@ export default {
                 { title: 'Resource requests', icon: 'create_new_folder', linkto: 'requests', selected: '' },
                 { title: 'My resources', icon: 'folder', linkto: 'resources', selected: '' },
                 { title: 'Shared with me', icon: 'folder_shared', linkto: 'shared', selected: '' },
+                { title: 'Manage studies', icon: 'build', linkto: 'manage', selected: '' },
             ],
             color: "#1d1d1d",
             selected: null,
