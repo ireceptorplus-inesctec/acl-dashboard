@@ -22,7 +22,7 @@ const axios = require('axios')
         },
         watch: {
             study: function(val) {
-                this.$emit('select_study', this.studies[this.studies_names.indexOf(val)].id)
+                this.$emit('select_study', this.studies[this.studies_names.indexOf(val)].name)
             },
         },
         methods: {

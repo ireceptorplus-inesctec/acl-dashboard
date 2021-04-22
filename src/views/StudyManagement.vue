@@ -40,7 +40,7 @@ const axios = require('axios')
     },
     data () {
       return {
-        is_study: 0,
+        is_study: null,
         current_study: null,
         tree_list: [],
         color: "#3A3A3A",

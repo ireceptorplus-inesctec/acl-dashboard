@@ -31,8 +31,8 @@ const new_template = '+ save new template'
         },
         props: {
             is_study: {
-                type: Number,
-                default: function() { return 0 }
+                type: String,
+                default: function() { return null }
             },
             get_mappings_from_tree: {
                 type: Function,
