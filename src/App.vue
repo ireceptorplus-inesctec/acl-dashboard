@@ -76,4 +76,24 @@ export default {
   left: 0;
   overflow-x: hidden;
 }
+
+/* width */
+::-webkit-scrollbar {
+  width: 15px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #1d1d1d;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background:#3a3a3a;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background:#bbbbbb;
+}
 </style>
