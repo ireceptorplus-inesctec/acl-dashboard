@@ -3,7 +3,7 @@ module.exports = {
     "vuetify"
   ],
   publicPath: process.env.NODE_ENV === 'production'
-    ? '/middleware-dashboard/'
+    ? '/mappings-dashboard/'
     : '/'
 }
 

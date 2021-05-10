@@ -22,7 +22,7 @@ const axios = require('axios')
         },
         watch: {
             study: function(val) {
-                this.$emit('select_study', this.studies[this.studies_names.indexOf(val)].name)
+                this.$emit('select_study', this.studies[this.studies_names.indexOf(val)]._id)
             },
         },
         methods: {
@@ -31,7 +31,12 @@ const axios = require('axios')
              */
             get_studies () {
                 let url = process.env.VUE_APP_MAPPINGS_BASE_PATH + 'study'
-                axios.get(url)
+                let config = {
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('access-token')
+                    }
+                }
+                axios.get(url, config)
                 .then((response) => {
                     this.studies = response.data
                     this.get_studies_names(this.studies)

@@ -55,7 +55,12 @@ const axios = require('axios')
       show_study (study_id) {
         this.is_study = study_id
         let url = process.env.VUE_APP_MAPPINGS_BASE_PATH + 'study/' + study_id
-        axios.get(url)
+        let config = {
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('access-token')
+            }
+        }
+        axios.get(url, config)
         .then((response) => {
           this.current_study = response.data
         })
@@ -69,7 +74,12 @@ const axios = require('axios')
        */
       show_template(template_id) {
         let url = process.env.VUE_APP_MAPPINGS_BASE_PATH + 'templates/' + template_id
-        axios.get(url)
+        let config = {
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('access-token')
+            }
+        }
+        axios.get(url, config)
         .then((response) => {
           this.current_study.mappings = response.data.mappings
         })

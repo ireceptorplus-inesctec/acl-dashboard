@@ -61,7 +61,12 @@ const new_template = '+ save new template'
             get_templates () {
                 this.template = null
                 let url = process.env.VUE_APP_MAPPINGS_BASE_PATH + 'templates'
-                axios.get(url)
+                let config = {
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('access-token')
+                    }
+                }
+                axios.get(url, config)
                 .then((response) => {
                     this.templates = response.data
                     this.get_templates_names(response.data)

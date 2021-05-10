@@ -44,7 +44,12 @@ const axios = require('axios')
              */
             get_scopes() {
                 let url = process.env.VUE_APP_MAPPINGS_BASE_PATH + 'scopes'
-                axios.get(url)
+                let config = {
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('access-token')
+                }
+            }
+                axios.get(url, config)
                 .then((response) => {
                     this.scopes = response.data
                 })
@@ -57,7 +62,12 @@ const axios = require('axios')
              */
             get_classes () {
                 let url = process.env.VUE_APP_MAPPINGS_BASE_PATH + 'class'
-                axios.get(url)
+                let config = {
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('access-token')
+                    }
+                }
+                axios.get(url, config)
                 .then((response) => {
                     this.classes = response.data
                 })
@@ -70,7 +80,12 @@ const axios = require('axios')
              */
             get_fields() {
                 let url = process.env.VUE_APP_MAPPINGS_BASE_PATH + 'fields'
-                axios.get(url)
+                let config = {
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('access-token')
+                    }
+                }
+                axios.get(url, config)
                 .then((response) => {
                     this.fields = response.data
                 })
