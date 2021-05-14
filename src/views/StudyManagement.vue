@@ -19,7 +19,7 @@
       </v-row>
       <h2 class="subtitle">Mappings</h2>
       <div v-if="current_study">
-        <study-mappings :current_study="current_study" v-on:change_tree="change_tree"></study-mappings>
+        <study-mappings :current_study="current_study" v-on:change_tree="change_tree" v-on:update_mappings="update_mappings"></study-mappings>
       </div>
     </div>
   </div>
@@ -98,10 +98,11 @@ const axios = require('axios')
             scope_obj.fields.push(tree[i].id);
           } else {
             if (tree[i].children.length > 0) {
-              this.add_children_ids(scope_obj, tree[i].children)
+              scope_obj = this.add_children_ids(scope_obj, tree[i].children)
             }
           }
         }
+        return scope_obj
       },
       /**
        * Reads gloal list of trees (tree_list) and returns an id-only array of object
@@ -109,16 +110,14 @@ const axios = require('axios')
        */
       get_mappings_from_tree() {
         let mappings_obj = []
-        console.log(this.tree_list)
         for (let i = 0; i < this.tree_list.length; i++) {
           let scope_obj = {
             scope: this.tree_list[i].scope_id,
             fields: []
           }
-          this.add_children_ids(scope_obj, this.tree_list[i].tree)
-          mappings_obj.push(scope_obj)
+          scope_obj = this.add_children_ids(scope_obj, this.tree_list[i].tree)
+          mappings_obj.push(Object.assign({}, scope_obj))
         }
-        // this.current_study.mappings = mappings_obj
         return mappings_obj
       },
       /**
@@ -128,6 +127,23 @@ const axios = require('axios')
       change_tree(tree) {
         this.tree_list = tree
       },
+      update_mappings() {
+        var mapp = this.get_mappings_from_tree()
+        this.current_study.mappings = mapp
+        let url = process.env.VUE_APP_MAPPINGS_BASE_PATH + 'study/' + this.current_study.id
+        let config = {
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('access-token')
+            }
+        }
+        axios.put(url, this.current_study, config)
+        .then((response) => {
+          console.log(response)
+        })
+        .catch((e) => {
+          console.log(e)
+        })
+      }
     },
   }
 </script>
