@@ -7,9 +7,19 @@
                 <v-subheader dark>
                 {{scope.scope}}
                 </v-subheader>
-                <v-treeview-draggable v-model="scope.tree" group="mappings" :scope="scope.scope" :add_leaf="add_leaf" :remove_leaf="remove_leaf"></v-treeview-draggable>
+                <v-treeview-draggable v-model="scope.tree" group="mappings" :scope="scope.scope" :add_leaf="add_leaf" :remove_leaf="remove_leaf" :classes="classes"></v-treeview-draggable>
             </v-list>
             </div>
+            <v-btn
+             class="mx-2 postIcon"
+             fab
+             dark
+             color="primary"
+             v-on:click="update_mappings">
+                <v-icon dark>
+                    mdi-plus
+                </v-icon>
+            </v-btn>
         </v-layout>
         </v-container>
     </v-content>
@@ -45,10 +55,10 @@ const axios = require('axios')
             get_scopes() {
                 let url = process.env.VUE_APP_MAPPINGS_BASE_PATH + 'scopes'
                 let config = {
-                headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('access-token')
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('access-token')
+                    }
                 }
-            }
                 axios.get(url, config)
                 .then((response) => {
                     this.scopes = response.data
@@ -101,7 +111,6 @@ const axios = require('axios')
              */
             new_fields_tree() {
                 this.tree_list = []
-                let field_counter = 0
                 for (let i = 0; i < this.current_study.mappings.length; i++) {
                     let mapping = this.current_study.mappings[i]
                     let scope_name = this.get_scope_name(mapping.scope)
@@ -125,14 +134,13 @@ const axios = require('axios')
                     let fields_names = this.get_fields_names_with_classes(mapping.fields)
 
                     for (let j = 0; j < fields_names.length; j++) {
-                        let small_name_split = fields_names[j].split('.')
+                        let small_name_split = fields_names[j].name.split('.')
                         let small_name = small_name_split[small_name_split.length - 1]
                         let field_obj = {
-                            id: field_counter,
+                            id: fields_names[j].id,
                             name: small_name,
-                            field_name: fields_names[j]
+                            field_name: fields_names[j].name
                         }
-                        field_counter++
                         this.add_leaf(tree_obj.tree, scope_name, field_obj)
                     }
 
@@ -162,7 +170,10 @@ const axios = require('axios')
                 for (let i = 0; i < ids.length; i++) {
                     for (let j = 0; j < this.fields.length; j++) {
                         if (ids[i] == this.fields[j].id) {
-                            fields_names.push(this.get_class_name(this.fields[j].class_id).toLowerCase() + '.' + this.fields[j].name)
+                            fields_names.push({
+                                    name: this.get_class_name(this.fields[j].class_id).toLowerCase() + '.' + this.fields[j].name,
+                                    id: this.fields[j].id
+                                })
                             break
                         }
                     }
@@ -191,6 +202,12 @@ const axios = require('axios')
              * @param element Element being added to the tree (localValue)
              */
             add_leaf: function(localValue, scope, element) {
+                if (this.classes.some(e => e.name == element.name)) {
+                    element.children.forEach((ch) => {
+                        this.add_leaf(localValue, scope, ch)
+                    })
+                    return
+                }
                 let split
                 let new_id
                 if (Object.prototype.hasOwnProperty.call(element, 'field_name')) {
@@ -291,6 +308,9 @@ const axios = require('axios')
                     }
                 }
             },
+            update_mappings() {
+                this.$emit('update_mappings')
+            }
         },
         watch: {
             'current_study.mappings': function() {
@@ -315,3 +335,9 @@ const axios = require('axios')
         },
     }
 </script>
+
+<style>
+    .postIcon {
+        margin-left: 20px;
+    }
+</style>

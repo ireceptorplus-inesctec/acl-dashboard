@@ -64,6 +64,10 @@
               type: Function,
               default: function() {}
             },
+            classes: {
+              type: Array,
+              default: function() { return [] }
+            },
         },
         data() {
             return {
@@ -116,6 +120,12 @@
                   this.$emit("input", this.localValue)
                 }
               } else if (changed.removed) {
+                if (this.classes.some(e => e.name == changed.removed.element.name)) {
+                  var cloned_children = Object.assign([], changed.removed.element.children);
+                  cloned_children.forEach((ch) => {
+                    this.remove_leaf(this.localValue, this.scope, ch)
+                  })
+                }
                 if (this.check_has_parent(changed.removed.element)) {
                   this.remove_leaf(this.localValue, this.scope, changed.removed.element)
                 } else {
