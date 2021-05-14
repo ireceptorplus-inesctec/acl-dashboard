@@ -96,9 +96,23 @@ const new_template = '+ save new template'
                 this.get_templates()
             },
             create_template(name, mappings) {
-                console.log('TODO - POST create template')
-                console.log(name)
-                console.log(mappings)
+                let post_template = {
+                    name: name,
+                    mappings: mappings
+                }
+                let url = process.env.VUE_APP_MAPPINGS_BASE_PATH + 'templates'
+                let config = {
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('access-token')
+                    }
+                }
+                axios.post(url, post_template, config)
+                .then((response) => {
+                    console.log(response)
+                })
+                .catch((e) => {
+                    console.log(e)
+                })
             }
         },
         mounted() {
