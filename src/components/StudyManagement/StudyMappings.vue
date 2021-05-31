@@ -1,25 +1,41 @@
 <template>
     <v-content>
+        <v-row>
+            <v-col
+             cols="6"
+             sm="3"
+             md="1"
+            >
+                <h2 class="subtitle">Mappings</h2>
+            </v-col>
+            <v-col
+             cols="3"
+             md="1"
+            >
+                <v-btn
+                 class="mx-2 postIcon"
+                 fab
+                 :dark="(mode === 'dark')"
+                 small
+                 v-on:click="update_mappings">
+                    <v-icon
+                    :dark="(mode === 'dark')"
+                    >
+                        mdi-floppy
+                    </v-icon>
+                </v-btn>
+            </v-col>
+        </v-row>
         <v-container fluid>
         <v-layout v-if="current_study.mappings" align-start justify-center>
-            <div v-for="scope in tree_list" :key="scope.scope">
-            <v-list two-line :color="color">
-                <v-subheader dark>
-                {{scope.scope}}
-                </v-subheader>
-                <v-treeview-draggable v-model="scope.tree" group="mappings" :scope="scope.scope" :add_leaf="add_leaf" :remove_leaf="remove_leaf" :classes="classes"></v-treeview-draggable>
-            </v-list>
+            <div v-for="(scope, index) in tree_list" :key="scope.scope" class="one_tree_column">
+                <v-list two-line :class="[class_types[index % 2], (mode === 'dark') ? 'dark' : 'light']">
+                    <h3 class="scopeTitle" :class="(mode === 'dark') ? 'dark' : 'light'">
+                    {{scope.scope}}
+                    </h3>
+                    <v-treeview-draggable v-model="scope.tree" group="mappings" :scope="scope.scope" :add_leaf="add_leaf" :remove_leaf="remove_leaf" :classes="classes"></v-treeview-draggable>
+                </v-list>
             </div>
-            <v-btn
-             class="mx-2 postIcon"
-             fab
-             dark
-             color="primary"
-             v-on:click="update_mappings">
-                <v-icon dark>
-                    mdi-plus
-                </v-icon>
-            </v-btn>
         </v-layout>
         </v-container>
     </v-content>
@@ -39,14 +55,24 @@ const axios = require('axios')
                 scopes: null,
                 classes: null,
                 fields: null,
-                color: "#3A3A3A",
+                color: ["#3A3A3A", "#1F1F1F"],
+                class_types: ["odd", "even"],
+                choice: null
             }
         },
         props: {
             current_study: {
                 type: Object,
                 default: function() { return {} }
-            }
+            },
+            snackbar: {
+                type: Boolean,
+                default: function() { return false }
+            },
+            snackbar_text: {
+                type: String,
+                default: function() { return "" }
+            },
         },
         methods: {
             /**
@@ -193,6 +219,30 @@ const axios = require('axios')
                 }
             },
             /**
+             * Gets all element ids from given tree.
+             * @param tree Tree to get ids from
+             */
+            get_ids_from_tree(tree) {
+                return this.get_ids_from_tree_ids(tree, [])
+            },
+            /**
+             * Recursive method to extract all ids from a given tree with all its children.
+             * @param tree Tree to get ids from
+             * @param ids Initially empty array to store exctracted ids
+             */
+            get_ids_from_tree_ids(tree, ids) {
+                for (var i = 0; i < tree.length; i++) {
+                    // if (Object.prototype.hasOwnProperty.call(tree[i], 'id') && Number.isInteger(tree[i].id)) {
+                    if (Object.prototype.hasOwnProperty.call(tree[i], 'id')) {
+                        ids.push(tree[i].id)
+                    }
+                    if (Object.prototype.hasOwnProperty.call(tree[i], 'children') && tree[i].children.length > 0) {
+                        ids = this.get_ids_from_tree_ids(tree[i].children, ids)
+                    }
+                }
+                return ids
+            },
+            /**
              * Adds new element to a tree (localValue).
              * If the element is a leaf its id is numerical
              * If the element is a parent its id is a concatenation of the corresponding scope and "parent" name
@@ -202,6 +252,12 @@ const axios = require('axios')
              * @param element Element being added to the tree (localValue)
              */
             add_leaf: function(localValue, scope, element) {
+                // checks if element is already on tree (localValue), returns otherwise
+                let ids = this.get_ids_from_tree(localValue)
+                if (ids.includes(element.id)) {
+                    return
+                }
+
                 if (this.classes.some(e => e.name == element.name)) {
                     element.children.forEach((ch) => {
                         this.add_leaf(localValue, scope, ch)
@@ -270,6 +326,20 @@ const axios = require('axios')
              * @param element Element being added to the tree (localValue)
              */
             remove_leaf: function(localValue, scope, element) {
+                element = Object.assign({}, element)
+
+                // existing ids outside current tree (localValue)
+                let ids = []
+                // existing scopes outside current tree (localValue)
+                let other_scopes = []
+                // fills previous arrays
+                for (var i = 0; i < this.tree_list.length; i++) {
+                    if (this.tree_list[i].scope != scope) {
+                        ids = ids.concat(this.get_ids_from_tree(this.tree_list[i].tree))
+                        other_scopes.push(this.tree_list[i].scope)
+                    }
+                }
+
                 let split
                 let parents = []
                 if (Object.prototype.hasOwnProperty.call(element, 'field_name')) {
@@ -292,7 +362,21 @@ const axios = require('axios')
                 }
                 current_name += '.' + split[split.length - 1]
                 let leaf_index = current_block.children.findIndex(v => v.field_name == split.join('.') || v.id == current_name)
-                current_block.children.splice(leaf_index, 1)
+                // if id (Numerical) is found in another tree it is removed from current tree
+                if (ids.includes(current_block.children[leaf_index].id)) {
+                    current_block.children.splice(leaf_index, 1)
+                } else {
+                    // if id is not numerical, change scope part of "id" and check against ids array, if exists can be removed
+                    if (!Number.isInteger(current_block.children[leaf_index].id) && current_block.children[leaf_index].id.includes('.')) {
+                        let with_scp = current_block.children[leaf_index].id.split('.')
+                        other_scopes.forEach((scp) => {
+                            with_scp[0] = scp
+                            if (ids.includes(with_scp.join('.'))) {
+                                current_block.children.splice(leaf_index, 1)
+                            }
+                        })
+                    }
+                }
 
                 this.remove_empty_parents(parents)
             },
@@ -308,6 +392,9 @@ const axios = require('axios')
                     }
                 }
             },
+            /**
+             * Emits an event for mappings update.
+             */
             update_mappings() {
                 this.$emit('update_mappings')
             }
@@ -331,13 +418,55 @@ const axios = require('axios')
         computed: {
             ready: function() {
                 return this.scopes && this.classes && this.fields
+            },
+            mode: function() {
+                return this.$store.state.mode
             }
-        },
+        }
     }
 </script>
 
 <style>
     .postIcon {
         margin-left: 20px;
+    }
+
+    .scopeTitle {
+        color: #ffffff;
+        text-align: center;
+        padding-bottom: 20px;
+        padding-top: 10px;
+        text-transform: capitalize;
+        border-bottom: 1px solid #6f6f6f;
+    }
+
+    .one_tree_column {
+        width: 33%;
+    }
+
+    .odd.dark {
+        background: #263238 !important;
+    }
+    .odd.dark .scopeTitle {
+        background: #263238 !important;
+    }
+    .odd.light {
+        background: #F9F9F9 !important;
+    }
+    .odd.light .scopeTitle {
+        background: #F9F9F9 !important;
+    }
+
+    .even.dark {
+        background: #455A64 !important;
+    }
+    .even.dark .scopeTitle {
+        background: #455A64 !important;
+    }
+    .even.light {
+        background: #F1F1F1 !important;
+    }
+    .even.light .scopeTitle {
+        background: #F1F1F1 !important;
     }
 </style>

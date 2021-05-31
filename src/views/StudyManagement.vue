@@ -6,22 +6,39 @@
         <v-col
           cols="12"
           sm="6"
-          md="9"
+          md="7"
         >
           <study-picker v-on:select_study="show_study"></study-picker>
         </v-col>
         <v-col
           cols="6"
-          md="3"
+          md="5"
         >
           <template-picker :is_study="is_study" v-on:select_template="show_template" :get_mappings_from_tree="get_mappings_from_tree"></template-picker>
         </v-col>
       </v-row>
-      <h2 class="subtitle">Mappings</h2>
       <div v-if="current_study">
-        <study-mappings :current_study="current_study" v-on:change_tree="change_tree" v-on:update_mappings="update_mappings"></study-mappings>
+        <study-mappings :current_study="current_study" v-on:change_tree="change_tree" v-on:update_mappings="update_mappings" :snackbar="snackbar" :snackbar_text="snackbar_text"></study-mappings>
       </div>
     </div>
+    <v-snackbar
+      v-model="snackbar"
+      :timeout="timeout"
+      color="blue-grey"
+    >
+      {{ snackbar_text }}
+
+      <template v-slot:action="{ attrs }">
+        <v-btn
+          color="blue"
+          text
+          v-bind="attrs"
+          @click="snackbar = false"
+        >
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
   </div>
 </template>
 
@@ -45,6 +62,9 @@ const axios = require('axios')
         tree_list: [],
         color: "#3A3A3A",
         mappings: null,
+        snackbar: false,
+        snackbar_text: "",
+        timeout: 3000
       }
     },
     methods: {
@@ -137,11 +157,13 @@ const axios = require('axios')
             }
         }
         axios.put(url, this.current_study, config)
-        .then((response) => {
-          console.log(response)
+        .then(() => {
+          this.snackbar_text = "Mappings updated successfully"
+          this.snackbar = true
         })
-        .catch((e) => {
-          console.log(e)
+        .catch(() => {
+          this.snackbar_text = "Error updating mappings"
+          this.snackbar = true
         })
       }
     },
@@ -151,7 +173,7 @@ const axios = require('axios')
 <style scoped>
   .study {
     height: 100%;
-    width: 90%;
+    width: 100%;
     position: absolute;
     top: 0;
     left: 0;
