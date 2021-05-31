@@ -7,8 +7,7 @@
         <v-navigation-drawer
          width="100%"
          permanent
-         :color="color"
-         dark
+         :color="(mode === 'dark') ? color.dark : color.light"
         >
             <v-list-item>
                 <v-list-item-avatar>
@@ -50,10 +49,16 @@
             <v-select
              v-model="selected"
              :items="servers"
-             dark
+             :dark="mode === 'dark'"
              label="Choose server"
              class="selectable">
             </v-select>
+            <v-switch
+             v-model="modeswitch"
+             flat
+             :label="`Dark Mode (${mode === 'dark' ? 'ON' : 'OFF'})`"
+             class="themetoggle"
+            ></v-switch>
         </v-navigation-drawer>
         <!-- <v-navigation-drawer
          width="100%"
@@ -120,9 +125,14 @@ export default {
                 { title: 'Shared with me', icon: 'folder_shared', linkto: 'shared', selected: '' },
                 { title: 'Manage studies', icon: 'build', linkto: 'manage', selected: '' },
             ],
-            color: "#1d1d1d",
+            color: {
+                dark: '#546E7A',
+                // light: '#78909C'
+                light: '#ffffff'
+            },
             selected: null,
             servers: ['adc-middleware'],
+            modeswitch: false
         }
     },
     methods: {
@@ -181,25 +191,33 @@ export default {
             })
             .catch(() => {
                 this.user_name = "Could not retreive user info"
-                // this.get_user_info()
             })
         },
         logout() {
-            // TODO - ver se fica assim
             localStorage.removeItem('access-token')
             localStorage.removeItem('refresh-token')
             keycloak.logout()
-            // this.$emit('user-is-logged')
         }
     },
     mounted () {
-        // this.highlight_selected(),
         this.get_user_info()
         this.selected = localStorage.getItem('server')
     },
     watch: {
         selected: function(val) {
             localStorage.setItem('server', val)
+        },
+        modeswitch: function(val) {
+            if (val === true) {
+                this.$store.state.mode = 'dark';
+            } else {
+                this.$store.state.mode = 'light';
+            }
+        }
+    },
+    computed: {
+        mode: function() {
+            return this.$store.state.mode
         }
     }
 }
@@ -233,5 +251,13 @@ export default {
     width: 50%;
     position: absolute;
     left: 25%;
+}
+
+.themetoggle {
+    width: 50%;
+    position: absolute;
+    left: 25%;
+    bottom: 0%;
+    padding-bottom: 20px;
 }
 </style>

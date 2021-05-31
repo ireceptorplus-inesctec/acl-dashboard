@@ -1,5 +1,5 @@
 <template>
-    <v-dialog v-if="open" v-model="open" max-width="600px">
+    <v-dialog v-if="open" v-model="open" max-width="600px" v-on:input="close_card">
       <v-card>
         <v-card-title>
           <span class="headline">Choose a name for the new template</span>
@@ -34,6 +34,9 @@
             save_template() {
                 this.$emit('close', this.template_name)
             },
+            close_card() {
+                this.$emit('close', null)
+            }
         }
     }
 </script>

@@ -3,7 +3,7 @@
         <h1 class="title">{{ resources[selected].name }} is shared with</h1>
         <div v-if="details !== null" class="listing">
             <v-list
-             dark
+             :dark="(mode === 'dark')"
              rounded
              :color="color"
              three-line
@@ -11,7 +11,7 @@
                 <v-list-item
                  v-for="(detail, index) in details"
                  :key="index"
-                 dark>
+                 :dark="(mode === 'dark')">
                     <v-list-item-avatar class="avatar">
                         <v-icon x-large>{{ user_photo }}</v-icon>
                     </v-list-item-avatar>
@@ -89,6 +89,11 @@ export default {
             .catch(() => {
                 alert('Error revoking access')
             })
+        }
+    },
+    computed: {
+        mode: function() {
+            return this.$store.state.mode
         }
     }
 }

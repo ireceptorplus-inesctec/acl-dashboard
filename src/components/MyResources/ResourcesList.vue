@@ -3,7 +3,7 @@
         <h1 class="title">My resources</h1>
         <div class="listing">
             <v-list
-             dark
+             :dark="(mode === 'dark')"
              rounded
              :color="color"
              three-line
@@ -12,12 +12,12 @@
                 <v-list-item-group
                  v-for="(resource, index) in resources"
                  :key="index"
-                 style="background: #2d2d2d;">
+                 :style="(mode === 'dark') ? 'background: #2d2d2d;' : 'background: #ffffff;'">
                     <v-list-item
                      :id="resource._id"
                      link
                      v-on:click="open_resource(index)"
-                     dark
+                     :dark="(mode === 'dark')"
                         >
                         <v-list-item-avatar class="avatar">
                             <v-img src="@/assets/icons/dna.png"></v-img>
@@ -57,16 +57,20 @@
                                 <v-text-field
                                 v-model="to_share_with"
                                 label="Username/E-Mail"
-                                dark
+                                :dark="(mode === 'dark')"
                                 />
                             </v-col>
                             <v-col cols="12" sm="2">
                             <v-btn class="mx-2 button"
                                 fab
-                                dark
+                                :dark="(mode === 'dark')"
                                 @click="share_with(index)"
                                 >
-                                    <v-icon dark>add</v-icon>
+                                    <v-icon
+                                     :dark="(mode === 'dark')"
+                                     >
+                                     add
+                                    </v-icon>
                                 </v-btn>
                             </v-col>
                         </v-row>
@@ -216,6 +220,9 @@ export default {
             } catch (e) {
                 return null
             }
+        },
+        mode: function() {
+            return this.$store.state.mode
         }
     }
 }

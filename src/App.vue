@@ -5,7 +5,7 @@
         <!-- <Sidebar @user-is-logged="changeLoginStatus"/> -->
         <Sidebar/>
       </div>
-      <div id="app" data-app>
+      <div id="app" data-app :class="(mode === 'dark') ? '' : 'light'">
         <router-view class="view"></router-view>
       </div>
     </div>
@@ -25,6 +25,16 @@ export default {
     return {
     }
   },
+  mounted() {
+    // setInterval(() => {
+    //   this.$store.commit('changetheme')
+    // }, 1000)
+  },
+  computed: {
+      mode: function() {
+        return this.$store.state.mode
+      }
+  }
   // methods: {
   //   changeLoginStatus() {
 
@@ -35,12 +45,17 @@ export default {
 </script>
 
 <style>
+.light {
+  background: #ffffff !important;
+  color: #263238 !important;
+}
+
 #login {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: #2d2d2d;
-  color: #ffffff;
+  background: #37474F;
+  color: #CFD8DC;
   height: 100%;
   width: 100%;
   position: fixed;
@@ -53,8 +68,8 @@ export default {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: #2d2d2d;
-  color: #ffffff;
+  background: #37474F;
+  color: #CFD8DC;
   height: 100%;
   width: 80%;
   position: fixed;

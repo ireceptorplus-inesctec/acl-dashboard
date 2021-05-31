@@ -3,7 +3,7 @@
     <h1 class="title">Shared with me</h1>
     <div class="listing">
       <v-list
-      dark
+      :dark="(mode === 'dark')"
       rounded
       :color="color"
       three-line
@@ -66,6 +66,11 @@ const axios = require('axios')
     },
     mounted() {
       this.get_shared_with_me()
+    },
+    computed: {
+        mode: function() {
+          return this.$store.state.mode
+        }
     }
   }
 </script>

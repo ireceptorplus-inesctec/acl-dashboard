@@ -3,7 +3,7 @@
         <h1 class="title">Pending requests</h1>
         <div class="listing">
             <v-list
-             dark
+             :dark="(mode === 'dark')"
              rounded
              :color="color"
              three-line
@@ -116,6 +116,11 @@ export default {
     },
     mounted () {
         this.get_pending_requests()
+    },
+    computed: {
+        mode: function() {
+            return this.$store.state.mode
+        }
     }
 }
 </script>

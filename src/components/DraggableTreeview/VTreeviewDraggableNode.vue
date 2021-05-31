@@ -2,11 +2,11 @@
     <div :class="['v-treeview-node v-treeview-node--click', {'v-treeview-node--leaf' : !hasChildren}]">
         <div class="v-treeview-node__root" @click="open = !open">
             <div v-for="levelNr in levelsToAdd" :key="levelNr" class="v-treeview-node__level"></div>
-            <button v-if="hasChildren" type="button"  class="v-icon notranslate v-treeview-node__toggle v-icon--link mdi mdi-menu-down"
+            <button v-if="hasChildren" type="button"  class="v-icon notranslate v-treeview-node__toggle v-icon--link mdi mdi-menu-down arrow-open"
                 :class="{
                       'v-treeview-node__toggle--open': open,
-                      'theme--dark': isDark,
-                      'theme--light': !isDark
+                      'theme--dark': mode === 'dark',
+                      'theme--light': mode === 'light'
                     }"
             />
             <div class="v-treeview-node__content">
@@ -129,11 +129,14 @@
               return !!this.$slots['append'] || !!this.$scopedSlots['append'];
             },
             isDark: function () {
-                return this.$vuetify.theme.isDark;
+                return this.mode === 'dark';
             },
             levelsToAdd: function () {
               return this.level + (this.hasChildren ? 0 : 1);
             },
+            mode: function() {
+                return this.$store.state.mode
+            }
         },
         watch: {
             value: function (value) {
@@ -166,3 +169,22 @@
         }
     };
 </script>
+
+<style scoped>
+    .arrow-open {
+        -webkit-transform: rotate(-90deg);
+        -moz-transform: rotate(-90deg);
+        -ms-transform: rotate(-90deg);
+        -o-transform: rotate(-90deg);
+        transform: rotate(-90deg);
+        display: inline-block;
+    }
+    .v-treeview-node__toggle--open {
+        -webkit-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        transform: rotate(0deg);
+        display: inline-block;
+    }
+</style>

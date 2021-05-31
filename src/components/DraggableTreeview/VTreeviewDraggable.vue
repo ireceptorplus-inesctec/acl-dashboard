@@ -76,7 +76,7 @@
         },
         computed: {
           themeClassName: function () {
-            return this.$vuetify.theme.isDark ? "theme--dark" : "theme--light";
+            return this.mode === 'dark' ? "theme--dark" : "theme-light";
           },
 
           hasSlotPrepend () {
@@ -88,6 +88,9 @@
 //            console.log('append-root', !!this.$scopedSlots['append']);
             return !!this.$scopedSlots['append'] || !!this.$slots['append'] ;
           },
+          mode: function() {
+            return this.$store.state.mode
+          }
         },
         watch: {
             value(value) {
@@ -142,3 +145,7 @@
         }
     }
 </script>
+
+<style lang="sass">
+  @import 'vuetify/src/components/VTreeview/VTreeview.sass'
+</style>

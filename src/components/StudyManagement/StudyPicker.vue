@@ -2,7 +2,7 @@
     <v-select
         v-model="study"
         :items="studies_names"
-        dark
+        :dark="(mode === 'dark')"
         label="Study"
         class="selectable"
     >
@@ -61,5 +61,10 @@ const axios = require('axios')
         mounted() {
             this.get_studies()
         },
+        computed: {
+            mode: function() {
+                return this.$store.state.mode
+            }
+        }
     }
 </script>
