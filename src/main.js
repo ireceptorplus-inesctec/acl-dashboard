@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import VueX from 'vuex'
 import App from './App.vue'
 import VueLogger from 'vuejs-logger'
 
@@ -14,6 +15,18 @@ import 'material-design-icons-iconfont/dist/material-design-icons.css'
 Vue.config.productionTip = false
 
 Vue.use(VueRouter)
+Vue.use(VueX)
+
+const store = new VueX.Store({
+  state: {
+    mode: 'light'
+  },
+  mutations: {
+    changetheme (state) {
+      state.mode = state.mode === 'dark' ? 'light' : 'dark'
+    }
+  }
+})
 
 const loggerOptions = {
   isEnabled: true,
@@ -49,6 +62,7 @@ keycloak.init({ onLoad: 'login-required', 'checkLoginIframe': false }).then((aut
     new Vue({
       router,
       vuetify,
+      store,
       icons: {
         iconfont: 'md'
       },
@@ -73,19 +87,20 @@ keycloak.init({ onLoad: 'login-required', 'checkLoginIframe': false }).then((aut
     //       })
     //     }
   // }, 60000)
-    keycloak.updateToken(70).then((refreshed) => {
+  keycloak.updateToken(70).then((refreshed) => {
 
-      if (refreshed) {
-        Vue.$log.debug('Token refreshed ' + refreshed)
-      } else {
-        Vue.$log.warn('Token not refreshed, valid for '
-        + Math.round(keycloak.tokenParsed.exp + keycloak.timeSkew - new Date().getTime() / 1000)
-        + ' seconds')
-      }
+    if (refreshed) {
+      Vue.$log.debug('Token refreshed ' + refreshed)
+    } else {
+      Vue.$log.warn('Token not refreshed, valid for '
+      + Math.round(keycloak.tokenParsed.exp + keycloak.timeSkew - new Date().getTime() / 1000)
+      + ' seconds')
+      localStorage.setItem('access-token', keycloak.token)
+    }
 
-    }).catch(() => {
-      Vue.$log.error('Failed to refresh token')
-    })
+  }).catch(() => {
+    Vue.$log.error('Failed to refresh token')
+  })
   }, 25000)
   
 }).catch(() => {
