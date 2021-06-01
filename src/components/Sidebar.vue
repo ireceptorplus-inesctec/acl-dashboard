@@ -171,13 +171,7 @@ export default {
                     'realms/' +
                     process.env.VUE_APP_KEYCLOAK_REALM +
                     '/protocol/openid-connect/userinfo'
-            let config = {
-                headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('access-token')
-                }
-            }
-
-            axios.get(url, config)
+            axios.get(url)
             .then((response) => {
                 if (response.data['name']) {
                     this.user_name = response.data['name']

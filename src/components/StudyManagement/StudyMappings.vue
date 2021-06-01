@@ -80,12 +80,7 @@ const axios = require('axios')
              */
             get_scopes() {
                 let url = process.env.VUE_APP_MAPPINGS_BASE_PATH + 'scopes'
-                let config = {
-                    headers: {
-                        'Authorization': 'Bearer ' + localStorage.getItem('access-token')
-                    }
-                }
-                axios.get(url, config)
+                axios.get(url)
                 .then((response) => {
                     this.scopes = response.data
                 })
@@ -98,12 +93,7 @@ const axios = require('axios')
              */
             get_classes () {
                 let url = process.env.VUE_APP_MAPPINGS_BASE_PATH + 'class'
-                let config = {
-                    headers: {
-                        'Authorization': 'Bearer ' + localStorage.getItem('access-token')
-                    }
-                }
-                axios.get(url, config)
+                axios.get(url)
                 .then((response) => {
                     this.classes = response.data
                 })
@@ -116,12 +106,7 @@ const axios = require('axios')
              */
             get_fields() {
                 let url = process.env.VUE_APP_MAPPINGS_BASE_PATH + 'fields'
-                let config = {
-                    headers: {
-                        'Authorization': 'Bearer ' + localStorage.getItem('access-token')
-                    }
-                }
-                axios.get(url, config)
+                axios.get(url)
                 .then((response) => {
                     this.fields = response.data
                 })
@@ -360,21 +345,24 @@ const axios = require('axios')
                     parents.push(current_block.children[index])
                     current_block = current_block.children[index]
                 }
+
                 current_name += '.' + split[split.length - 1]
-                let leaf_index = current_block.children.findIndex(v => v.field_name == split.join('.') || v.id == current_name)
-                // if id (Numerical) is found in another tree it is removed from current tree
-                if (ids.includes(current_block.children[leaf_index].id)) {
-                    current_block.children.splice(leaf_index, 1)
-                } else {
-                    // if id is not numerical, change scope part of "id" and check against ids array, if exists can be removed
-                    if (!Number.isInteger(current_block.children[leaf_index].id) && current_block.children[leaf_index].id.includes('.')) {
-                        let with_scp = current_block.children[leaf_index].id.split('.')
-                        other_scopes.forEach((scp) => {
-                            with_scp[0] = scp
-                            if (ids.includes(with_scp.join('.'))) {
-                                current_block.children.splice(leaf_index, 1)
-                            }
-                        })
+                if (current_block.children.length > 0) {
+                    let leaf_index = current_block.children.findIndex(v => v.field_name == split.join('.') || v.id == current_name)
+                    // if id (Numerical) is found in another tree it is removed from current tree
+                    if (ids.includes(current_block.children[leaf_index].id)) {
+                        current_block.children.splice(leaf_index, 1)
+                    } else {
+                        // if id is not numerical, change scope part of "id" and check against ids array, if exists can be removed
+                        if (!Number.isInteger(current_block.children[leaf_index].id) && current_block.children[leaf_index].id.includes('.')) {
+                            let with_scp = current_block.children[leaf_index].id.split('.')
+                            other_scopes.forEach((scp) => {
+                                with_scp[0] = scp
+                                if (ids.includes(with_scp.join('.'))) {
+                                    current_block.children.splice(leaf_index, 1)
+                                }
+                            })
+                        }
                     }
                 }
 

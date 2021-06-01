@@ -97,12 +97,7 @@ const axios = require('axios')
             get_templates () {
                 this.template = null
                 let url = process.env.VUE_APP_MAPPINGS_BASE_PATH + 'templates'
-                let config = {
-                    headers: {
-                        'Authorization': 'Bearer ' + localStorage.getItem('access-token')
-                    }
-                }
-                axios.get(url, config)
+                axios.get(url)
                 .then((response) => {
                     this.templates = response.data
                     this.get_templates_names(response.data)
@@ -140,12 +135,7 @@ const axios = require('axios')
                     mappings: mappings
                 }
                 let url = process.env.VUE_APP_MAPPINGS_BASE_PATH + 'templates'
-                let config = {
-                    headers: {
-                        'Authorization': 'Bearer ' + localStorage.getItem('access-token')
-                    }
-                }
-                axios.post(url, post_template, config)
+                axios.post(url, post_template)
                 .then((response) => {
                     console.log(response)
                     this.get_templates()
@@ -163,12 +153,7 @@ const axios = require('axios')
                     return
                 }
                 let url = process.env.VUE_APP_MAPPINGS_BASE_PATH + 'templates/' + filtered[0].id
-                let config = {
-                    headers: {
-                        'Authorization': 'Bearer ' + localStorage.getItem('access-token')
-                    }
-                }
-                axios.delete(url, config)
+                axios.delete(url)
                 .then((response) => {
                     console.log(response)
                     this.get_templates()

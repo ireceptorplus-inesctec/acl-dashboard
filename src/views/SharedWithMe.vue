@@ -49,13 +49,7 @@ const axios = require('axios')
         let url = process.env.VUE_APP_BACKEND_URL +
                 'shared_with_me/' + localStorage.getItem('server')
 
-        let config = {
-          headers: {
-            'Authorization': 'Bearer ' + localStorage.getItem('access-token')
-          }
-        }
-
-        axios.get(url, config)
+        axios.get(url)
         .then((response) => {
           this.shared_list = response.data
         })

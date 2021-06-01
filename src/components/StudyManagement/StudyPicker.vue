@@ -31,12 +31,7 @@ const axios = require('axios')
              */
             get_studies () {
                 let url = process.env.VUE_APP_MAPPINGS_BASE_PATH + 'study'
-                let config = {
-                    headers: {
-                        'Authorization': 'Bearer ' + localStorage.getItem('access-token')
-                    }
-                }
-                axios.get(url, config)
+                axios.get(url)
                 .then((response) => {
                     this.studies = response.data
                     this.get_studies_names(this.studies)

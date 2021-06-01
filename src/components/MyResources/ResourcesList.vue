@@ -186,18 +186,12 @@ export default {
                     'give_access/' + localStorage.getItem('server') + '/' +
                     null
 
-            let config = {
-                headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('access-token')
-                }
-            }
-
             this.selected_scopes.forEach((scope) => {
                 let data = 'resource_id=' + this.resources[index]._id +
                         '&requester=' + this.to_share_with +
                         '&scope_name=' + scope
 
-                axios.post(url, data, config)
+                axios.post(url, data)
                 .then(() => {
                     this.$emit('refresh')
                 })

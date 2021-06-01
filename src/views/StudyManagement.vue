@@ -75,12 +75,7 @@ const axios = require('axios')
       show_study (study_id) {
         this.is_study = study_id
         let url = process.env.VUE_APP_MAPPINGS_BASE_PATH + 'study/' + study_id
-        let config = {
-            headers: {
-                'Authorization': 'Bearer ' + localStorage.getItem('access-token')
-            }
-        }
-        axios.get(url, config)
+        axios.get(url)
         .then((response) => {
           this.current_study = response.data
         })
@@ -94,12 +89,7 @@ const axios = require('axios')
        */
       show_template(template_id) {
         let url = process.env.VUE_APP_MAPPINGS_BASE_PATH + 'templates/' + template_id
-        let config = {
-            headers: {
-                'Authorization': 'Bearer ' + localStorage.getItem('access-token')
-            }
-        }
-        axios.get(url, config)
+        axios.get(url)
         .then((response) => {
           this.current_study.mappings = response.data.mappings
         })
@@ -151,12 +141,7 @@ const axios = require('axios')
         var mapp = this.get_mappings_from_tree()
         this.current_study.mappings = mapp
         let url = process.env.VUE_APP_MAPPINGS_BASE_PATH + 'study/' + this.current_study.id
-        let config = {
-            headers: {
-                'Authorization': 'Bearer ' + localStorage.getItem('access-token')
-            }
-        }
-        axios.put(url, this.current_study, config)
+        axios.put(url, this.current_study)
         .then(() => {
           this.snackbar_text = "Mappings updated successfully"
           this.snackbar = true

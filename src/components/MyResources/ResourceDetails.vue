@@ -72,17 +72,11 @@ export default {
             let url = process.env.VUE_APP_BACKEND_URL +
                         'revoke/' + localStorage.getItem('server')
 
-            let config = {
-                headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('access-token')
-                }
-            }
-
             let data = 'owner_id=' + owner_id +
                         '&requester=' + requester +
                         '&resource_id=' + resource_id
 
-            axios.post(url, data, config)
+            axios.post(url, data)
             .then(() => {
                 this.$emit('refresh')
             })

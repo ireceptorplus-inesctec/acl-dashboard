@@ -57,13 +57,7 @@ export default {
             let url = process.env.VUE_APP_BACKEND_URL +
                     'pending_requests/' + localStorage.getItem('server')
 
-            let config = {
-                headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('access-token')
-                }
-            }
-
-            axios.get(url, config)
+            axios.get(url)
             .then((response) => {
                 this.pending_list = response.data
             })
@@ -76,17 +70,11 @@ export default {
                     'give_access/' + localStorage.getItem('server') + '/' +
                     this.pending_list[index].id
 
-            let config = {
-                headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('access-token')
-                }
-            }
-
             let data = 'resource_id=' + this.pending_list[index].resource +
                         '&requester_id=' + this.pending_list[index].requester +
                         '&scope_name=' + this.pending_list[index].scopeName
 
-            axios.post(url, data, config)
+            axios.post(url, data)
             .then(() => {
                 this.get_pending_requests()
             })
@@ -99,13 +87,7 @@ export default {
                     'deny/' + localStorage.getItem('server') + '/' +
                     this.pending_list[index].id
 
-            let config = {
-                headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('access-token')
-                }
-            }
-
-            axios.delete(url, config)
+            axios.delete(url)
             .then(() => {
                 this.get_pending_requests()
             })
