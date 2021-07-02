@@ -2,7 +2,6 @@
   <div>
     <div>
       <div id="sidebar">
-        <!-- <Sidebar @user-is-logged="changeLoginStatus"/> -->
         <Sidebar/>
       </div>
       <div id="app" data-app :class="(mode === 'dark') ? '' : 'light'">
@@ -25,22 +24,11 @@ export default {
     return {
     }
   },
-  mounted() {
-    // setInterval(() => {
-    //   this.$store.commit('changetheme')
-    // }, 1000)
-  },
   computed: {
       mode: function() {
         return this.$store.state.mode
       }
   }
-  // methods: {
-  //   changeLoginStatus() {
-
-  //     console.log('TODO')
-  //   }
-  // }
 }
 </script>
 

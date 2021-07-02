@@ -32,7 +32,6 @@ import RecentlyAccepted from '@/components/ResourceRequests/RecentlyAccepted'
     top: 0;
     left: 0;
     overflow-x: hidden;
-    /* background: red; */
   }
 
   .recent {
@@ -42,6 +41,5 @@ import RecentlyAccepted from '@/components/ResourceRequests/RecentlyAccepted'
     top: 0;
     right: 0;
     overflow-x: hidden;
-    /* background: green; */
   }
 </style>

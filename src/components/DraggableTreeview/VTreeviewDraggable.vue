@@ -29,7 +29,6 @@
 </template>
 
 <script>
-    // import Vue, { PropType } from "vue";
     import draggable from "vuedraggable";
     import VTreeviewDraggableNode from "./VTreeviewDraggableNode.vue";
     export default {
@@ -40,13 +39,9 @@
         props: {
             value: {
                 type: Array,
-                // type: Array as PropType<{ id: string | number }[]>,
                 default: function () {
                     return []
                 }
-                // default: (): { id: string | number }[] => {
-                //    return [];
-                // }
             },
             group: {
                 type: String,
@@ -84,8 +79,6 @@
           },
 
           hasSlotAppend () {
-            //let result = !!this.$slots['append'] || !!this.$scopedSlots['append'];
-//            console.log('append-root', !!this.$scopedSlots['append']);
             return !!this.$scopedSlots['append'] || !!this.$slots['append'] ;
           },
           mode: function() {
@@ -94,26 +87,10 @@
         },
         watch: {
             value(value) {
-//                console.log('WatchValue/DraggableTreeView: this.localValue', this.localValue, 'value', value);
                 this.localValue = [...value];
             }
         },
         methods: {
-            // updateValue: function (value) {
-            //     this.localValue = value;
-            //     this.$emit("input", this.localValue);
-            //     console.log('updateValue: ')
-            //     console.log(value)
-            // },
-            // updateItem: function (itemValue) {
-            //     const index = this.localValue.findIndex(v => v.id === itemValue.id);
-            //     this.$set(this.localValue, index, itemValue);
-            //     this.$emit("input", this.localValue);
-            //     console.log('updateItem - itemValue: ')
-            //     console.log(itemValue)
-            //     console.log('updateItem - localValue: ')
-            //     console.log(this.localValue)
-            // },
             changed: function(changed) {
               if (changed.added) {
                 if (this.check_has_parent(changed.added.element)) {

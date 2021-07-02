@@ -3,9 +3,8 @@
         <h1 class="title">Pending requests</h1>
         <div class="listing">
             <v-list
-             :dark="(mode === 'dark')"
+             :style="(mode === 'dark') ? 'background: #37474F;' : 'background: #ffffff;'"
              rounded
-             :color="color"
              three-line
              avatar>
                 <v-list-item
@@ -55,7 +54,7 @@ export default {
     methods: {
         get_pending_requests () {
             let url = process.env.VUE_APP_BACKEND_URL +
-                    'pending_requests/' + localStorage.getItem('server')
+                    'pending_requests'
 
             axios.get(url)
             .then((response) => {
@@ -67,7 +66,7 @@ export default {
         },
         accept(index) {
             let url = process.env.VUE_APP_BACKEND_URL +
-                    'give_access/' + localStorage.getItem('server') + '/' +
+                    'give_access/' +
                     this.pending_list[index].id
 
             let data = 'resource_id=' + this.pending_list[index].resource +
@@ -84,7 +83,7 @@ export default {
         },
         deny(index) {
             let url = process.env.VUE_APP_BACKEND_URL +
-                    'deny/' + localStorage.getItem('server') + '/' +
+                    'deny/' +
                     this.pending_list[index].id
 
             axios.delete(url)

@@ -51,7 +51,6 @@ keycloak.init({ onLoad: 'login-required', 'checkLoginIframe': false }).then((aut
   keycloak.loadUserInfo().then(() => {
     localStorage.setItem('access-token', keycloak.token)
     localStorage.setItem('refresh-token', keycloak.refreshToken)
-    localStorage.setItem('server', 'adc-middleware')
     new Vue({
       router,
       vuetify,

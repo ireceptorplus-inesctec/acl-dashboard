@@ -56,13 +56,6 @@
 
 <script>
     import draggable from "vuedraggable";
-    /*
-    type TreeItem = {
-        id: number;
-        name: string;
-        children: TreeItem[];
-    };
-    */
     export default {
         name: "VTreeviewDraggableNode",
         components: {
@@ -71,7 +64,6 @@
         props: {
             value: {
                 type: Object,
-                // type: Object as PropType<TreeItem>,
                 default: function () {
                     return {
                         id: 0,
@@ -98,7 +90,6 @@
             },
             root_node: {
                 type: Array,
-                // type: Object as PropType<TreeItem>,
                 default: function () {
                     return []
                 }
@@ -124,8 +115,6 @@
               return !!this.$scopedSlots['prepend'] || !!this.$slots['prepend'];
             },
             hasSlotAppend () {
-              //let result = !!this.$slots['append'] || !!this.$scopedSlots['append'];
-//              console.log('append', !!this.$scopedSlots['append']);
               return !!this.$slots['append'] || !!this.$scopedSlots['append'];
             },
             isDark: function () {
@@ -140,27 +129,8 @@
         },
         watch: {
             value: function (value) {
-//              console.log('WatchValue/DraggableTreeViewNODE: this.localValue', this.localValue, 'value', value);
               this.localValue = { ...value };
             }
-            /*
-            value(value): void {
-                this.localValue = { ...value };
-            }
-            */
-        },
-        methods: {
-            // updateValue: function (value) {
-            //     console.log('Node: updateValue', value)
-            //     this.localValue.children = [...value];
-            //     this.$emit("input", this.localValue);
-            // },
-            // updateChildValue: function (value) {
-            //     console.log('Node: updateChildValue', value);
-            //     const index = this.localValue.children.findIndex(c => c.id === value.id);
-            //     this.$set(this.localValue.children, index, value);
-            //     this.$emit("input", this.localValue);
-            // },
         },
         mounted() {
             if (this.value.is_open) {

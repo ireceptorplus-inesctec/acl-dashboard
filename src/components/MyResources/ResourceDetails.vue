@@ -3,9 +3,8 @@
         <h1 class="title">{{ resources[selected].name }} is shared with</h1>
         <div v-if="details !== null" class="listing">
             <v-list
-             :dark="(mode === 'dark')"
+             :style="(mode === 'dark') ? 'background: #37474F;' : 'background: #ffffff;'"
              rounded
-             :color="color"
              three-line
              avatar>
                 <v-list-item
@@ -52,25 +51,19 @@ export default {
     data () {
         return {
             user_photo: 'person',
-            color: "#2d2d2d"
+            color: "#fafafa"
         }
     },
     methods: {
         revoke(index) {
-            // var perm_id = this.details[index].id
-
             var owner_id = this.resources[this.selected].owner.id
-
-            // if (this.details[index].users.length > 1) {
-            //     return
-            // }
 
             var requester = this.details[index].user
 
             var resource_id = this.resources[this.selected]._id
 
             let url = process.env.VUE_APP_BACKEND_URL +
-                        'revoke/' + localStorage.getItem('server')
+                        'revoke'
 
             let data = 'owner_id=' + owner_id +
                         '&requester=' + requester +
@@ -100,7 +93,7 @@ export default {
 
     .title {
         text-align: center;
-        font-size: 300%;
+        font-size: 150%;
     }
 
     .del {

@@ -3,16 +3,15 @@
         <h1 class="title">My resources</h1>
         <div class="listing">
             <v-list
-             :dark="(mode === 'dark')"
+             :style="(mode === 'dark') ? 'background: #37474F;' : 'background: #ffffff;'"
              rounded
-             :color="color"
              three-line
              avatar
              >
                 <v-list-item-group
                  v-for="(resource, index) in resources"
                  :key="index"
-                 :style="(mode === 'dark') ? 'background: #2d2d2d;' : 'background: #ffffff;'">
+                 :style="(mode === 'dark') ? 'background: #37474F;' : 'background: #ffffff;'">
                     <v-list-item
                      :id="resource._id"
                      link
@@ -20,7 +19,8 @@
                      :dark="(mode === 'dark')"
                         >
                         <v-list-item-avatar class="avatar">
-                            <v-img src="@/assets/icons/dna.png"></v-img>
+                            <v-img v-if="mode === 'dark'" src="@/assets/icons/dna.png"></v-img>
+                            <v-img v-else src="@/assets/icons/dna-light.png"></v-img>
                         </v-list-item-avatar>
 
                         <v-list-item-content class="name">
@@ -93,7 +93,7 @@ export default {
     data () {
         return {
             resource_icon: 'folder',
-            color: "#2d2d2d",
+            color: "#37474F",
             to_share_with: null,
             selected_scopes: null
         }
@@ -101,14 +101,26 @@ export default {
     methods: {
         open_resource(index) {
             if (index == this.selected) {
-                document.getElementById(this.resources[this.selected]._id).style.background = '#2d2d2d'
+                if (this.mode === 'dark') {
+                    document.getElementById(this.resources[this.selected]._id).style.background = '#37474F'
+                } else {
+                    document.getElementById(this.resources[this.selected]._id).style.background = '#fafafa'
+                }
                 this.$emit('select-resource', null)
             } else {
                 if (this.selected != null) {
-                    document.getElementById(this.resources[this.selected]._id).style.background = '#2d2d2d'
+                    if (this.mode === 'dark') {
+                        document.getElementById(this.resources[this.selected]._id).style.background = '#37474F'
+                    } else {
+                        document.getElementById(this.resources[this.selected]._id).style.background = '#fafafa'
+                    }
                 }
                 this.$emit('select-resource', index)
-                document.getElementById(this.resources[index]._id).style.background = '#1d1d1d'
+                if (this.mode === 'dark') {
+                    document.getElementById(this.resources[index]._id).style.background = '#37474F'
+                } else {
+                    document.getElementById(this.resources[index]._id).style.background = '#fafafa'
+                }
             }
         },
         getCookie(name) {
@@ -121,61 +133,6 @@ export default {
             }
             return null;
         },
-        // share_with(index) {
-        //     if (!this.to_share_with || !this.selected_scopes || this.selected_scopes.length == 0) {
-        //         alert("Invalid user/scope")
-        //         return
-        //     }
-        //             // https://ireceptorplus.inesctec.pt/auth/realms/iReceptorPlus/account/resource/7c75e6e9-b105-428f-a77e-58a5047fbf0b/share
-        //     let url = process.env.VUE_APP_KEYCLOAK_URL +
-        //             'realms/' +
-        //             process.env.VUE_APP_KEYCLOAK_REALM +
-        //             '/account/resource/' +
-        //             this.resources[index]._id +
-        //             '/share'
-
-        //     let config = {
-        //         // headers: {
-        //         //     'Authorization': 'Bearer ' + localStorage.getItem('access-token')
-        //         // },
-        //         // Cookie: "KEYCLOAK_IDENTITY=eyJhbGciOiJIUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICI5YjdkNTE1ZS1mZGM0LTQ3MmUtYTIxNy0xNmE5NWU5YzEyN2QifQ.eyJqdGkiOiJjNTcyNjQ1OC0yYTdmLTQ5ZmYtOTFkMi05MTk1YmI4YjA0NDIiLCJleHAiOjE1OTQ0MjY0NjYsIm5iZiI6MCwiaWF0IjoxNTk0MzkwNDY2LCJpc3MiOiJodHRwczovL2lyZWNlcHRvcnBsdXMuaW5lc2N0ZWMucHQvYXV0aC9yZWFsbXMvaVJlY2VwdG9yUGx1cyIsInN1YiI6IjVkYWU4MjhlLWZkMmEtNGI1Mi1hOGIwLTdlOTg5NGI1NDYxNyIsInR5cCI6IlNlcmlhbGl6ZWQtSUQiLCJhdXRoX3RpbWUiOjAsInNlc3Npb25fc3RhdGUiOiIyZWMzNDA4ZS1hNmU4LTQ2MDQtYjE0Ni0zYWQ5MGQ3ZjlmZjciLCJzdGF0ZV9jaGVja2VyIjoibTNHWXZmMkJwVWpSTjV4Q3RCMm9QY19tdF9KaWVjQ3Q2SGpLSG9sM1NBayJ9.c7Hwat2n_KqKwqX8iiCEvk84sbhm1ePCrPhwfnKORIU" +
-        //         //         ";KEYCLOAK_SESSION=iReceptorPlus/5dae828e-fd2a-4b52-a8b0-7e9894b54617/2ec3408e-a6e8-4604-b146-3ad90d7f9ff7" +
-        //         //         ";AUTH_SESSION_ID=2ec3408e-a6e8-4604-b146-3ad90d7f9ff7.keycloak",
-        //         Cookie: "KEYCLOAK_IDENTITY=" + localStorage.getItem("KEYCLOAK_IDENTITY") +
-        //                 ";KEYCLOAK_SESSION=" + localStorage.getItem("KEYCLOAK_SESSION") +
-        //                 ";AUTH_SESSION_ID=" + localStorage.getItem("AUTH_SESSION_ID"),
-        //         withCredentials: true
-        //     }
-
-        //     console.log(config)
-
-        //     let scope_ids = []
-        //     this.selected_scopes.forEach((scope) => {
-        //         let i = 0
-        //         while (scope != this.resources[index].scopes[i].name) {
-        //             i++
-        //         }
-
-        //         scope_ids.push(this.resources[index].scopes[i].id)
-
-        //     })
-        //     let data = 'user_id=' + this.to_share_with
-
-        //     scope_ids.forEach(id => {
-        //         data += '&scope_id=' + id
-        //     })
-
-        //     axios.post(url, data, config)
-        //     .then(() => {
-        //         this.$emit('refresh')
-        //     })
-        //     .catch((e) => {
-        //         console.log(e.response.data)
-        //         alert('Error giving access for ' + ' scope, maybe you have a pending request for that permission?')
-        //     })
-
-            
-        // },
         share_with(index) {
             if (!this.to_share_with || !this.selected_scopes || this.selected_scopes.length == 0) {
                 alert("Invalid user/scope")
@@ -183,12 +140,11 @@ export default {
             }
 
             let url = process.env.VUE_APP_BACKEND_URL +
-                    'give_access/' + localStorage.getItem('server') + '/' +
-                    null
+                    'give_access/null'
 
             this.selected_scopes.forEach((scope) => {
                 let data = 'resource_id=' + this.resources[index]._id +
-                        '&requester=' + this.to_share_with +
+                        '&requester_id=' + this.to_share_with +
                         '&scope_name=' + scope
 
                 axios.post(url, data)

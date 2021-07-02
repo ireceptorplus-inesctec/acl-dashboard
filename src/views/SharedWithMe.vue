@@ -3,9 +3,8 @@
     <h1 class="title">Shared with me</h1>
     <div class="listing">
       <v-list
-      :dark="(mode === 'dark')"
+      :style="(mode === 'dark') ? 'background: #37474F;' : 'background: #ffffff;'"
       rounded
-      :color="color"
       three-line
       avatar>
         <v-list-item
@@ -47,7 +46,7 @@ const axios = require('axios')
     methods: {
       get_shared_with_me () {
         let url = process.env.VUE_APP_BACKEND_URL +
-                'shared_with_me/' + localStorage.getItem('server')
+                'shared_with_me'
 
         axios.get(url)
         .then((response) => {

@@ -25,7 +25,7 @@ export default {
     },
     methods: {
         get_my_requests () {
-            let url = process.env.VUE_APP_BACKEND_URL + 'own_resources/' + localStorage.getItem('server')
+            let url = process.env.VUE_APP_BACKEND_URL + 'own_resources'
 
             axios.get(url)
             .then((response) => {
@@ -51,7 +51,7 @@ export default {
           var id = this.resources[this.selected]._id
 
           let url = process.env.VUE_APP_BACKEND_URL +
-                      'resource_details/' + localStorage.getItem('server')
+                      'resource_details'
 
           let data = 'resource_id=' + id
 
@@ -104,7 +104,6 @@ export default {
     top: 0;
     left: 0;
     overflow-x: hidden;
-    /* background: red; */
   }
 
   .details {
@@ -114,6 +113,5 @@ export default {
     top: 0;
     right: 0;
     overflow-x: hidden;
-    /* background: green; */
   }
 </style>
