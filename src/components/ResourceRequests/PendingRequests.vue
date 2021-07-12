@@ -110,7 +110,6 @@ export default {
         mode: function() {
             return this.$store.state.mode
         },
-        // TODO - get data
         to_show: function() {
             if (this.pending_list === null || this.pending_list.length === 0) {
                 return []
