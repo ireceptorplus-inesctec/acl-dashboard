@@ -25,21 +25,12 @@ export default {
     },
     methods: {
         get_my_requests () {
-            var interv = setInterval(() => {
-                this.get_my_requests()
-            }, 5000)
-            let url = process.env.VUE_APP_BACKEND_URL + 'own_resources/' + localStorage.getItem('server')
-            let config = {
-                headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('access-token')
-                }
-            }
+            let url = process.env.VUE_APP_BACKEND_URL + 'own_resources'
 
-            axios.get(url, config)
+            axios.get(url)
             .then((response) => {
                 this.resources = response.data
                 this.add_selected_property()
-                clearInterval(interv)
             })
             .catch(() => {
                 this.resources = []
@@ -60,17 +51,11 @@ export default {
           var id = this.resources[this.selected]._id
 
           let url = process.env.VUE_APP_BACKEND_URL +
-                      'resource_details/' + localStorage.getItem('server')
-
-          let config = {
-              headers: {
-                  'Authorization': 'Bearer ' + localStorage.getItem('access-token')
-              }
-          }
+                      'resource_details'
 
           let data = 'resource_id=' + id
 
-          axios.post(url, data, config)
+          axios.post(url, data)
           .then((response) => {
               let temp_details = []
 
@@ -119,7 +104,6 @@ export default {
     top: 0;
     left: 0;
     overflow-x: hidden;
-    /* background: red; */
   }
 
   .details {
@@ -129,6 +113,5 @@ export default {
     top: 0;
     right: 0;
     overflow-x: hidden;
-    /* background: green; */
   }
 </style>

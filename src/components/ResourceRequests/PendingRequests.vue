@@ -1,15 +1,21 @@
 <template>
     <div class="pending">
-        <h1 class="title">Pending requests</h1>
-        <div class="listing">
+        <h1 v-if="pending_list !== null && pending_list.length > 0" class="title">Pending requests</h1>
+        <h1 v-else class="title">No requests to show</h1>
+        <div class="listing" v-if="pending_list !== null && pending_list.length > 0">
+            <v-text-field
+                v-model="to_search"
+                label="Search"
+                clearable>
+                    <label>name/scope</label>
+            </v-text-field>
             <v-list
-             dark
+             :style="(mode === 'dark') ? 'background: #37474F;' : 'background: #ffffff;'"
              rounded
-             :color="color"
              three-line
              avatar>
                 <v-list-item
-                 v-for="(pending, index) in pending_list"
+                 v-for="(pending, index) in to_show"
                  :key="index"
                  link
                  :id="pending.id">
@@ -49,21 +55,16 @@ export default {
     data () {
         return {
             pending_list: null,
-            color: "#2d2d2d"
+            color: "#2d2d2d",
+            to_search: ""
         }
     },
     methods: {
         get_pending_requests () {
             let url = process.env.VUE_APP_BACKEND_URL +
-                    'pending_requests/' + localStorage.getItem('server')
+                    'pending_requests'
 
-            let config = {
-                headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('access-token')
-                }
-            }
-
-            axios.get(url, config)
+            axios.get(url)
             .then((response) => {
                 this.pending_list = response.data
             })
@@ -73,20 +74,14 @@ export default {
         },
         accept(index) {
             let url = process.env.VUE_APP_BACKEND_URL +
-                    'give_access/' + localStorage.getItem('server') + '/' +
+                    'give_access/' +
                     this.pending_list[index].id
-
-            let config = {
-                headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('access-token')
-                }
-            }
 
             let data = 'resource_id=' + this.pending_list[index].resource +
                         '&requester_id=' + this.pending_list[index].requester +
                         '&scope_name=' + this.pending_list[index].scopeName
 
-            axios.post(url, data, config)
+            axios.post(url, data)
             .then(() => {
                 this.get_pending_requests()
             })
@@ -96,16 +91,10 @@ export default {
         },
         deny(index) {
             let url = process.env.VUE_APP_BACKEND_URL +
-                    'deny/' + localStorage.getItem('server') + '/' +
+                    'deny/' +
                     this.pending_list[index].id
 
-            let config = {
-                headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('access-token')
-                }
-            }
-
-            axios.delete(url, config)
+            axios.delete(url)
             .then(() => {
                 this.get_pending_requests()
             })
@@ -116,6 +105,21 @@ export default {
     },
     mounted () {
         this.get_pending_requests()
+    },
+    computed: {
+        mode: function() {
+            return this.$store.state.mode
+        },
+        to_show: function() {
+            if (this.pending_list === null || this.pending_list.length === 0) {
+                return []
+            }
+            return this.pending_list.filter(res => {
+                return res.resourceName.toLowerCase().includes(this.to_search.toLowerCase()) ||
+                  res.ownerName.toLowerCase().includes(this.to_search.toLowerCase()) ||
+                  res.scopeName.toLowerCase().includes(this.to_search.toLowerCase())
+            })
+        }
     }
 }
 </script>
