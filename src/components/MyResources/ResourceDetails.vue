@@ -1,17 +1,17 @@
 <template>
     <div v-if="selected !== null" class="details_list">
-        <h1 class="title">{{ resources[selected].name }} is shared with</h1>
+        <h1 v-if="details && details.length > 0" class="title">Shared with</h1>
+        <h1 v-else class="title">Not being shared</h1>
         <div v-if="details !== null" class="listing">
             <v-list
-             dark
+             :style="(mode === 'dark') ? 'background: #37474F;' : 'background: #ffffff;'"
              rounded
-             :color="color"
              three-line
              avatar>
                 <v-list-item
                  v-for="(detail, index) in details"
                  :key="index"
-                 dark>
+                 :dark="(mode === 'dark')">
                     <v-list-item-avatar class="avatar">
                         <v-icon x-large>{{ user_photo }}</v-icon>
                     </v-list-item-avatar>
@@ -52,43 +52,36 @@ export default {
     data () {
         return {
             user_photo: 'person',
-            color: "#2d2d2d"
+            color: "#fafafa"
         }
     },
     methods: {
         revoke(index) {
-            // var perm_id = this.details[index].id
-
             var owner_id = this.resources[this.selected].owner.id
-
-            // if (this.details[index].users.length > 1) {
-            //     return
-            // }
 
             var requester = this.details[index].user
 
             var resource_id = this.resources[this.selected]._id
 
             let url = process.env.VUE_APP_BACKEND_URL +
-                        'revoke/' + localStorage.getItem('server')
-
-            let config = {
-                headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('access-token')
-                }
-            }
+                        'revoke'
 
             let data = 'owner_id=' + owner_id +
                         '&requester=' + requester +
                         '&resource_id=' + resource_id
 
-            axios.post(url, data, config)
+            axios.post(url, data)
             .then(() => {
                 this.$emit('refresh')
             })
             .catch(() => {
                 alert('Error revoking access')
             })
+        }
+    },
+    computed: {
+        mode: function() {
+            return this.$store.state.mode
         }
     }
 }

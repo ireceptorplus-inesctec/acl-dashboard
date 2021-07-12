@@ -1,8 +1,0 @@
-{
-  "realm": "iReceptorPlus",
-  "auth-server-url": "http://localhost:9090/auth/",
-  "ssl-required": "none",
-  "resource": "client-id",
-  "public-client": true,
-  "confidential-port": 0
-}

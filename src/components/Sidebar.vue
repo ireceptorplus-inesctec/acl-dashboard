@@ -1,15 +1,13 @@
 <template>
     <v-card
      height="100%"
-     class="overflow-hidden"
+     class="overflow-hidden low"
      style="position: relative;"
     >
         <v-navigation-drawer
          width="100%"
-         absolute
          permanent
-         :color="color"
-         dark
+         :color="(mode === 'dark') ? color.dark : color.light"
         >
             <v-list-item>
                 <v-list-item-avatar>
@@ -48,6 +46,12 @@
                 </v-list-item-content>
 
             </v-list-item>
+            <v-switch
+             v-model="modeswitch"
+             flat
+             :label="`Dark Mode (${mode === 'dark' ? 'ON' : 'OFF'})`"
+             class="themetoggle"
+            ></v-switch>
         </v-navigation-drawer>
 
     </v-card>
@@ -69,49 +73,22 @@ export default {
                 { title: 'Resource requests', icon: 'create_new_folder', linkto: 'requests', selected: '' },
                 { title: 'My resources', icon: 'folder', linkto: 'resources', selected: '' },
                 { title: 'Shared with me', icon: 'folder_shared', linkto: 'shared', selected: '' },
+                { title: 'Manage studies', icon: 'build', linkto: 'manage', selected: '' },
             ],
-            color: "#1d1d1d",
-            selected: null
+            color: {
+                dark: '#546E7A',
+                light: '#ffffff'
+            },
+            modeswitch: false
         }
     },
     methods: {
-        highlight_selected () {
-            switch (window.location.pathname) {
-                case '/requests':
-                    this.items[0].selected = 'selected'
-                    this.selected = 0
-                    break;
-
-                case '/resources':
-                    this.items[1].selected = 'selected'
-                    this.selected = 1
-                    break;
-
-                case '/shared':
-                    this.items[2].selected = 'selected'
-                    this.selected = 2
-                    break;
-
-                default:
-                    this.items[0].selected = ''
-                    this.items[1].selected = ''
-                    this.items[2].selected = ''
-                    this.selected = null
-                    break;
-            }
-        },
         get_user_info () {
             let url = process.env.VUE_APP_KEYCLOAK_URL +
                     'realms/' +
                     process.env.VUE_APP_KEYCLOAK_REALM +
                     '/protocol/openid-connect/userinfo'
-            let config = {
-                headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('access-token')
-                }
-            }
-
-            axios.get(url, config)
+            axios.get(url)
             .then((response) => {
                 if (response.data['name']) {
                     this.user_name = response.data['name']
@@ -125,20 +102,30 @@ export default {
             })
             .catch(() => {
                 this.user_name = "Could not retreive user info"
-                // this.get_user_info()
             })
         },
         logout() {
-            // TODO - ver se fica assim
             localStorage.removeItem('access-token')
             localStorage.removeItem('refresh-token')
             keycloak.logout()
-            // this.$emit('user-is-logged')
         }
     },
     mounted () {
-        this.highlight_selected(),
         this.get_user_info()
+    },
+    watch: {
+        modeswitch: function(val) {
+            if (val === true) {
+                this.$store.state.mode = 'dark';
+            } else {
+                this.$store.state.mode = 'light';
+            }
+        }
+    },
+    computed: {
+        mode: function() {
+            return this.$store.state.mode
+        }
     }
 }
 </script>
@@ -165,5 +152,19 @@ export default {
 .logout {
     position: absolute;
     right: 0;
+}
+
+.selectable {
+    width: 50%;
+    position: absolute;
+    left: 25%;
+}
+
+.themetoggle {
+    width: 50%;
+    position: absolute;
+    left: 25%;
+    bottom: 0%;
+    padding-bottom: 20px;
 }
 </style>

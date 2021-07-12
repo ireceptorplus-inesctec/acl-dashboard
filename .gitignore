@@ -1,4 +1,4 @@
 node_modules
-src/assets/keycloak.json
 dist
-.env
+.vscode
+/.env
