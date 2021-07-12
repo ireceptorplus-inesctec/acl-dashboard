@@ -1,14 +1,21 @@
 <template>
   <div class="shared">
-    <h1 class="title">Shared with me</h1>
-    <div class="listing">
+    <h1 v-if="shared_list !== null && shared_list.length > 0" class="title">Shared with me</h1>
+    <h1 v-else class="title">No resources shared with me</h1>
+    <div class="listing" v-if="shared_list !== null && shared_list.length > 0">
+      <v-text-field
+        v-model="to_search"
+        label="Search"
+        clearable>
+          <label>name/scope/username/email</label>
+      </v-text-field>
       <v-list
       :style="(mode === 'dark') ? 'background: #37474F;' : 'background: #ffffff;'"
       rounded
       three-line
       avatar>
         <v-list-item
-        v-for="(shared, index) in shared_list"
+        v-for="(shared, index) in to_show"
         :key="index"
         link
         :id="shared.id">
@@ -40,7 +47,8 @@ const axios = require('axios')
     data () {
       return {
         shared_list: null,
-        color: "#2d2d2d"
+        color: "#2d2d2d",
+        to_search: ""
       }
     },
     methods: {
@@ -63,6 +71,16 @@ const axios = require('axios')
     computed: {
         mode: function() {
           return this.$store.state.mode
+        },
+        to_show: function() {
+          if (this.shared_list === null || this.shared_list.length === 0) {
+            return []
+          }
+            return this.shared_list.filter(res => {
+                return res.resourceName.toLowerCase().includes(this.to_search.toLowerCase()) ||
+                  res.requesterName.toLowerCase().includes(this.to_search.toLowerCase()) ||
+                  res.scopeName.toLowerCase().includes(this.to_search.toLowerCase())
+            })
         }
     }
   }

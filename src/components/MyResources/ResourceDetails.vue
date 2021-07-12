@@ -1,6 +1,7 @@
 <template>
     <div v-if="selected !== null" class="details_list">
-        <h1 class="title">{{ resources[selected].name }} is shared with</h1>
+        <h1 v-if="details && details.length > 0" class="title">Shared with</h1>
+        <h1 v-else class="title">Not being shared</h1>
         <div v-if="details !== null" class="listing">
             <v-list
              :style="(mode === 'dark') ? 'background: #37474F;' : 'background: #ffffff;'"
@@ -93,7 +94,7 @@ export default {
 
     .title {
         text-align: center;
-        font-size: 150%;
+        font-size: 300%;
     }
 
     .del {

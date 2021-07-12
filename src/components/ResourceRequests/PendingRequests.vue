@@ -1,14 +1,21 @@
 <template>
     <div class="pending">
-        <h1 class="title">Pending requests</h1>
-        <div class="listing">
+        <h1 v-if="pending_list !== null && pending_list.length > 0" class="title">Pending requests</h1>
+        <h1 v-else class="title">No requests to show</h1>
+        <div class="listing" v-if="pending_list !== null && pending_list.length > 0">
+            <v-text-field
+                v-model="to_search"
+                label="Search"
+                clearable>
+                    <label>name/scope</label>
+            </v-text-field>
             <v-list
              :style="(mode === 'dark') ? 'background: #37474F;' : 'background: #ffffff;'"
              rounded
              three-line
              avatar>
                 <v-list-item
-                 v-for="(pending, index) in pending_list"
+                 v-for="(pending, index) in to_show"
                  :key="index"
                  link
                  :id="pending.id">
@@ -48,7 +55,8 @@ export default {
     data () {
         return {
             pending_list: null,
-            color: "#2d2d2d"
+            color: "#2d2d2d",
+            to_search: ""
         }
     },
     methods: {
@@ -101,6 +109,17 @@ export default {
     computed: {
         mode: function() {
             return this.$store.state.mode
+        },
+        // TODO - get data
+        to_show: function() {
+            if (this.pending_list === null || this.pending_list.length === 0) {
+                return []
+            }
+            return this.pending_list.filter(res => {
+                return res.resourceName.toLowerCase().includes(this.to_search.toLowerCase()) ||
+                  res.ownerName.toLowerCase().includes(this.to_search.toLowerCase()) ||
+                  res.scopeName.toLowerCase().includes(this.to_search.toLowerCase())
+            })
         }
     }
 }

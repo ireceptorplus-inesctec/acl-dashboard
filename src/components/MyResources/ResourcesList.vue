@@ -1,7 +1,14 @@
 <template>
     <div class="resources_list">
-        <h1 class="title">My resources</h1>
-        <div class="listing">
+        <h1 v-if="resources !== null && resources.length > 0" class="title">My resources</h1>
+        <h1 v-else class="title">No resources owned</h1>
+        <div class="listing" v-if="resources !== null && resources.length > 0">
+            <v-text-field
+            v-model="to_search"
+            label="Search"
+            clearable>
+                <label>name/scope</label>
+            </v-text-field>
             <v-list
              :style="(mode === 'dark') ? 'background: #37474F;' : 'background: #ffffff;'"
              rounded
@@ -9,7 +16,7 @@
              avatar
              >
                 <v-list-item-group
-                 v-for="(resource, index) in resources"
+                 v-for="(resource, index) in to_show"
                  :key="index"
                  :style="(mode === 'dark') ? 'background: #37474F;' : 'background: #ffffff;'">
                     <v-list-item
@@ -45,6 +52,7 @@
                     <div
                      v-if="selected == index">
                         <h2 class="share_title">Share resource</h2>
+                        <h2 class="minititle">{{ resources[selected].name }}</h2>
                         <v-select
                             v-model="selected_scopes"
                             :items="scopes"
@@ -95,7 +103,8 @@ export default {
             resource_icon: 'folder',
             color: "#37474F",
             to_share_with: null,
-            selected_scopes: null
+            selected_scopes: null,
+            to_search: ""
         }
     },
     methods: {
@@ -173,6 +182,19 @@ export default {
         },
         mode: function() {
             return this.$store.state.mode
+        },
+        to_show: function() {
+            if (this.resources === null || this.resources.length === 0) {
+            return []
+          }
+            return this.resources.filter(res => {
+                for (let i = 0; i < res.scopes.length; i++) {
+                    if (res.scopes[i].name.toLowerCase().includes(this.to_search.toLowerCase())) {
+                        return true
+                    }
+                }
+                return res.name.toLowerCase().includes(this.to_search.toLowerCase())
+            })
         }
     }
 }
@@ -190,6 +212,11 @@ export default {
     .title {
         text-align: center;
         font-size: 300%;
+    }
+
+    .minititle {
+        text-align: left;
+        font-size: 100%;
     }
 
     .arrow {
