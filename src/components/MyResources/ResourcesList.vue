@@ -51,8 +51,10 @@
                     </v-list-item>
                     <div
                      v-if="selected == index">
-                        <h2 class="share_title">Share resource</h2>
-                        <h2 class="minititle">{{ resources[selected].name }}</h2>
+                        <h2 class="resource-label">Resource Details</h2>
+                        <h2 class="resource-title">{{ resources[selected].name }}</h2>
+
+                        <h2 class="resource-label">Share Resource</h2>
                         <v-select
                             v-model="selected_scopes"
                             :items="scopes"
@@ -60,28 +62,13 @@
                             label="Scopes"
                             multiple
                         ></v-select>
-                        <v-row>
-                            <v-col cols="12" sm="10">
-                                <v-text-field
-                                v-model="to_share_with"
-                                label="Username/E-Mail"
-                                :dark="(mode === 'dark')"
-                                />
-                            </v-col>
-                            <v-col cols="12" sm="2">
-                            <v-btn class="mx-2 button"
-                                fab
-                                :dark="(mode === 'dark')"
-                                @click="share_with(index)"
-                                >
-                                    <v-icon
-                                     :dark="(mode === 'dark')"
-                                     >
-                                     add
-                                    </v-icon>
-                                </v-btn>
-                            </v-col>
-                        </v-row>
+
+                        <v-text-field v-model="to_share_with" label="Username/e-mail" :dark="(mode === 'dark')"/>
+
+                        <v-btn class="mx-2 button btn-submit" @click="share_with(index)">
+                            <v-icon :dark="(mode === 'dark')">add</v-icon> Share
+                        </v-btn>
+
                     </div>
                 </v-list-item-group>
             </v-list>
@@ -165,7 +152,7 @@ export default {
                 })
             })
 
-            
+
         },
     },
     computed: {
@@ -214,7 +201,13 @@ export default {
         font-size: 300%;
     }
 
-    .minititle {
+    .resource-label {
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+
+    .resource-title {
         text-align: left;
         font-size: 100%;
     }
@@ -241,7 +234,7 @@ export default {
         margin-left: 15%;
     }
 
-    .share_title {
-        margin-left: 5%;
+    .btn-submit {
+        margin-bottom: 10px;
     }
 </style>

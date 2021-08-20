@@ -1,28 +1,18 @@
 <template>
     <v-content>
         <v-row>
-            <v-col
-             cols="6"
-             sm="3"
-             md="1"
-            >
-                <h2 class="subtitle">Mappings</h2>
+            <v-col>
+                <h2 class="subtitle">Field Mappings</h2>
             </v-col>
-            <v-col
-             cols="3"
-             md="1"
-            >
+            <v-col class="text-right">
                 <v-btn
                  class="mx-2 postIcon"
-                 fab
+                 :right="true"
+                 :absolute="true"
                  :dark="(mode === 'dark')"
-                 small
                  v-on:click="update_mappings">
-                    <v-icon
-                    :dark="(mode === 'dark')"
-                    >
-                        mdi-floppy
-                    </v-icon>
+                    <v-icon :dark="(mode === 'dark')">mdi-floppy</v-icon>
+                    Save Mappings
                 </v-btn>
             </v-col>
         </v-row>

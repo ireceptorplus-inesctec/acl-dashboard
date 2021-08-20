@@ -99,7 +99,7 @@ export default {
 
   .list {
     height: 100%;
-    width: 50%;
+    width: 60%;
     position: absolute;
     top: 0;
     left: 0;
@@ -108,7 +108,7 @@ export default {
 
   .details {
     height: 100%;
-    width: 50%;
+    width: 40%;
     position: absolute;
     top: 0;
     right: 0;

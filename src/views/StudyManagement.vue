@@ -1,6 +1,12 @@
 <template>
   <div class="study">
     <h1 class="title">Study manager</h1>
+
+    <p class="introduction" v-if="!this.is_study">
+      Manage the contents of your datasets and how their contents are shared with others.<br>
+      Start by picking a study to review its contents.
+    </p>
+
     <div class="listing">
       <v-row>
         <v-col
@@ -156,6 +162,11 @@ const axios = require('axios')
 </script>
 
 <style scoped>
+  .introduction {
+    margin: 20px 0;
+    line-height: 1.5;
+  }
+
   .study {
     height: 100%;
     width: 100%;
