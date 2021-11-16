@@ -53,7 +53,7 @@ const axios = require('axios')
     },
     methods: {
       get_shared_with_me () {
-        let url = process.env.VUE_APP_BACKEND_URL +
+        let url = process.env.VUE_APP_MIDDLEWARE_URL + process.env.VUE_APP_AUTHZ_BASE_PATH +
                 'shared_with_me'
 
         axios.get(url)

@@ -61,7 +61,7 @@ export default {
     },
     methods: {
         get_pending_requests () {
-            let url = process.env.VUE_APP_BACKEND_URL +
+            let url = process.env.VUE_APP_MIDDLEWARE_URL + process.env.VUE_APP_AUTHZ_BASE_PATH +
                     'pending_requests'
 
             axios.get(url)
@@ -73,7 +73,7 @@ export default {
             })
         },
         accept(index) {
-            let url = process.env.VUE_APP_BACKEND_URL +
+            let url = process.env.VUE_APP_MIDDLEWARE_URL + process.env.VUE_APP_AUTHZ_BASE_PATH +
                     'give_access/' +
                     this.pending_list[index].id
 
@@ -90,7 +90,7 @@ export default {
             })
         },
         deny(index) {
-            let url = process.env.VUE_APP_BACKEND_URL +
+            let url = process.env.VUE_APP_MIDDLEWARE_URL + process.env.VUE_APP_AUTHZ_BASE_PATH +
                     'deny/' +
                     this.pending_list[index].id
 

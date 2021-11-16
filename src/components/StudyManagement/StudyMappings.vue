@@ -69,7 +69,7 @@ const axios = require('axios')
              * Requests and retreives all scopes, placing the response in scopes
              */
             get_scopes() {
-                let url = process.env.VUE_APP_MAPPINGS_BASE_PATH + 'scopes'
+                let url = process.env.VUE_APP_MIDDLEWARE_URL + process.env.VUE_APP_MAPPINGS_BASE_PATH + 'scopes'
                 axios.get(url)
                 .then((response) => {
                     this.scopes = response.data
@@ -82,7 +82,7 @@ const axios = require('axios')
              * Requests and retreives all classes, placing the response in classes
              */
             get_classes () {
-                let url = process.env.VUE_APP_MAPPINGS_BASE_PATH + 'class'
+                let url = process.env.VUE_APP_MIDDLEWARE_URL + process.env.VUE_APP_MAPPINGS_BASE_PATH + 'class'
                 axios.get(url)
                 .then((response) => {
                     this.classes = response.data
@@ -95,7 +95,7 @@ const axios = require('axios')
              * Requests and retreives all fields, placing the response in fields
              */
             get_fields() {
-                let url = process.env.VUE_APP_MAPPINGS_BASE_PATH + 'fields'
+                let url = process.env.VUE_APP_MIDDLEWARE_URL + process.env.VUE_APP_MAPPINGS_BASE_PATH + 'fields'
                 axios.get(url)
                 .then((response) => {
                     this.fields = response.data
@@ -112,6 +112,7 @@ const axios = require('axios')
              */
             new_fields_tree() {
                 this.tree_list = []
+                console.log(this.current_study)
                 for (let i = 0; i < this.current_study.mappings.length; i++) {
                     let mapping = this.current_study.mappings[i]
                     let scope_name = this.get_scope_name(mapping.scope)

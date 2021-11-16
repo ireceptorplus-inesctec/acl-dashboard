@@ -1,4 +1,5 @@
 <template>
+<v-app>
   <div>
     <div>
       <div id="sidebar">
@@ -9,7 +10,7 @@
       </div>
     </div>
   </div>
-
+</v-app>
 </template>
 
 <script>

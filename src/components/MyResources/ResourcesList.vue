@@ -68,6 +68,9 @@
                         <v-btn class="mx-2 button btn-submit" @click="share_with(index)">
                             <v-icon :dark="(mode === 'dark')">add</v-icon> Share
                         </v-btn>
+                        <v-btn class="mx-2 button btn-submit" @click="change_owner(index)">
+                            <v-icon :dark="(mode === 'dark')">swap_horiz</v-icon> Change owner
+                        </v-btn>
 
                     </div>
                 </v-list-item-group>
@@ -135,7 +138,7 @@ export default {
                 return
             }
 
-            let url = process.env.VUE_APP_BACKEND_URL +
+            let url = process.env.VUE_APP_MIDDLEWARE_URL + process.env.VUE_APP_AUTHZ_BASE_PATH +
                     'give_access/null'
 
             this.selected_scopes.forEach((scope) => {
@@ -154,6 +157,25 @@ export default {
 
 
         },
+        change_owner(index) {
+            if (!this.to_share_with) {
+                alert("Invalid user")
+                return
+            }
+
+            let url = process.env.VUE_APP_MIDDLEWARE_URL + process.env.VUE_APP_AUTHZ_BASE_PATH +
+                    'change_owner/' +
+                    this.resources[index]._id + '/' +
+                    this.to_share_with
+
+            axios.post(url, '')
+            .then(() => {
+                this.$emit('refresh')
+            })
+            .catch(() => {
+                alert('Error changing owner, maybe user doesn\'t exist?')
+            })
+        }
     },
     computed: {
         scopes: function() {

@@ -25,7 +25,7 @@ export default {
     },
     methods: {
         get_my_requests () {
-            let url = process.env.VUE_APP_BACKEND_URL + 'own_resources'
+            let url = process.env.VUE_APP_MIDDLEWARE_URL + process.env.VUE_APP_AUTHZ_BASE_PATH + 'own_resources'
 
             axios.get(url)
             .then((response) => {
@@ -50,7 +50,7 @@ export default {
         get_details() {
           var id = this.resources[this.selected]._id
 
-          let url = process.env.VUE_APP_BACKEND_URL +
+          let url = process.env.VUE_APP_MIDDLEWARE_URL + process.env.VUE_APP_AUTHZ_BASE_PATH +
                       'resource_details'
 
           let data = 'resource_id=' + id

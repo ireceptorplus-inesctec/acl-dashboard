@@ -63,7 +63,7 @@ export default {
 
             var resource_id = this.resources[this.selected]._id
 
-            let url = process.env.VUE_APP_BACKEND_URL +
+            let url = process.env.VUE_APP_MIDDLEWARE_URL + process.env.VUE_APP_AUTHZ_BASE_PATH +
                         'revoke'
 
             let data = 'owner_id=' + owner_id +

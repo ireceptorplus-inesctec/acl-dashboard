@@ -96,7 +96,7 @@ const axios = require('axios')
              */
             get_templates () {
                 this.template = null
-                let url = process.env.VUE_APP_MAPPINGS_BASE_PATH + 'templates'
+                let url = process.env.VUE_APP_MIDDLEWARE_URL + process.env.VUE_APP_MAPPINGS_BASE_PATH + 'templates'
                 axios.get(url)
                 .then((response) => {
                     this.templates = response.data
@@ -134,7 +134,7 @@ const axios = require('axios')
                     name: name,
                     mappings: mappings
                 }
-                let url = process.env.VUE_APP_MAPPINGS_BASE_PATH + 'templates'
+                let url = process.env.VUE_APP_MIDDLEWARE_URL + process.env.VUE_APP_MAPPINGS_BASE_PATH + 'templates'
                 axios.post(url, post_template)
                 .then((response) => {
                     console.log(response)
@@ -152,7 +152,7 @@ const axios = require('axios')
                     console.log('template not found')
                     return
                 }
-                let url = process.env.VUE_APP_MAPPINGS_BASE_PATH + 'templates/' + filtered[0].id
+                let url = process.env.VUE_APP_MIDDLEWARE_URL + process.env.VUE_APP_MAPPINGS_BASE_PATH + 'templates/' + filtered[0].id
                 axios.delete(url)
                 .then((response) => {
                     console.log(response)
