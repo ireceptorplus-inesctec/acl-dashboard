@@ -2,6 +2,8 @@
 
 Access control dashboard for an easy and interactive management of user-based permissions on the [ADC Middleware](https://github.com/ireceptorplus-inesctec/adc-middleware)
 
+The access is managed via a set of authorization profiles (*public*, *statistics* and *raw_sequence*), refered as scoped throughout the document
+
 Project runs on **Vue.js** using **keycloak-js** library to manage the authentication compatibility with the *middleware*
 
 This project also uses the following main libraries: **axios**, **vue-router**, **vuedraggable**, **vuetify** and **vuex**
@@ -45,9 +47,13 @@ npm run build
 
 Note the *.env.local* and *.env.production* override *.env*
 
-## !!! Environment variables !!!
-
-***FALAR DO .ENV***
+## Environment variables (default)
+- VUE_APP_KEYCLOAK_URL: Keycloak's base URL (http://localhost:8082/auth/)
+- VUE_APP_KEYCLOAK_REALM: Keycloak's realm (master)
+- VUE_APP_KEYCLOAK_CLIENT_ID: Keycloak's dashboard client id (acl-dashboard)
+- VUE_APP_MIDDLEWARE_URL: ADC Middleware's base URL (http://localhost:8080/)
+- VUE_APP_MAPPINGS_BASE_PATH: ADC Middleware's field mappings base path (resource/)
+- VUE_APP_AUTHZ_BASE_PATH: ADC Middleware's dashboard backend base path (authz/)
 
 ## Features
 
@@ -56,7 +62,7 @@ Note the *.env.local* and *.env.production* override *.env*
     - Accept/Deny pending requests
   - List owned resources
     - List users and scopes resource is shared with
-    - Revoke access from another user to owner resource
+    - Revoke access from another user to owner's resource
   - Share (specific scope from a) resource with another user
   - Transfer resource ownership to another user
   - Update field mappings for each study
@@ -81,12 +87,37 @@ Note the *.env.local* and *.env.production* override *.env*
 - **All users**
   - **List resources shared with them** - a user can list all the resources that are shared with him, viewing the access scopes he was granted for each resource
 
+## Pages
+
+- **Resource requests**
+  - As a resource owner you can see a page with every request sent to you, requesting access to your studies. In this page each request identifies the study and the requested scope (if you have been requested 3 scopes for the same study, 3 requests will appear) and you can either accept or deny them
+
+![Resource requests](./docs/resource_requests.png)
+
+- **My Resources**
+  - As a resource owner you can see a page with every study you own and the scopes associated with each study. When you open a study, you can see more information on the study and you can perform actions on it:
+    - You can share specific scopes with another user, either using his username or email
+    - You can transfer the ownership of the study to another user, either using his username or email
+    - You can see a list of all the users that study is currently being shared with
+    - You can revoke any user's access to your study in the mentioned list
+
+![Resource details](./docs/resource_details.png)
+
+- **Shared with me**
+  - As a user you can see a page with every study shared with you, with an entry for each scope you have access. The owner of each study is also represented on each entry, making it easy to search for a specific resource. 
+
+![Shared with me](./docs/shared_with_me.png)
+
+- **Manage Studies**
+  - In this page you will first be prompted to select one of the studies you own on a dropdown tab. After selecting the study, a tree-like grid will appear for each scope, this grid represents how the study fields are mapped to each scope. As a resource owner you can drag any field (parent, leaf, whole tree) and customize its level of security or shareability, making each field accessible with the permission you feel adequate.
+
+![Field mappings](./docs/field_mappings.png)
+
+
 ## Browsers support
 
-Modern browsers and Internet Explorer 11+
+Modern browsers
 
-| [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" alt="IE / Edge" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>IE / Edge | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png" alt="Firefox" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>Firefox | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png" alt="Chrome" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>Chrome | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png" alt="Safari" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>Safari |
+| [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" alt="IE / Edge" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>Edge | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png" alt="Firefox" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>Firefox | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png" alt="Chrome" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>Chrome | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png" alt="Safari" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>Safari |
 | --------- | --------- | --------- | --------- |
-| IE11, Edge| last 2 versions| last 2 versions| last 2 versions
-
-## ??? License ???
+| Edge| last 2 versions| last 2 versions| last 2 versions
