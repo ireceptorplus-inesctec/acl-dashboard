@@ -1,11 +1,12 @@
 <template>
-    <v-content>
+    <v-main>
         <v-row>
             <v-col>
                 <h2 class="subtitle">Field Mappings</h2>
             </v-col>
             <v-col class="text-right">
                 <v-btn
+                 color="primary"
                  class="mx-2 postIcon"
                  :right="true"
                  :absolute="true"
@@ -28,7 +29,7 @@
             </div>
         </v-layout>
         </v-container>
-    </v-content>
+    </v-main>
 </template>
 
 <script>
@@ -112,7 +113,6 @@ const axios = require('axios')
              */
             new_fields_tree() {
                 this.tree_list = []
-                console.log(this.current_study)
                 for (let i = 0; i < this.current_study.mappings.length; i++) {
                     let mapping = this.current_study.mappings[i]
                     let scope_name = this.get_scope_name(mapping.scope)

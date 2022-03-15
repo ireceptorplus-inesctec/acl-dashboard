@@ -11,7 +11,6 @@
             </v-text-field>
             <v-list
              :style="(mode === 'dark') ? 'background: #37474F;' : 'background: #ffffff;'"
-             rounded
              three-line
              avatar
              >
