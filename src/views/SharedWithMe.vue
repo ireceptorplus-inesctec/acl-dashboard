@@ -11,16 +11,21 @@
       </v-text-field>
       <v-list
       :style="(mode === 'dark') ? 'background: #37474F;' : 'background: #ffffff;'"
-      rounded
-      three-line
       avatar>
         <v-list-item
-        v-for="(shared, index) in to_show"
+        v-for="(shared, index) in resources"
         :key="index"
         link
         :id="shared.id">
             <v-list-item-avatar class="avatar">
-              <v-img src="@/assets/icons/dna.png"></v-img>
+              <v-img
+                  v-if="mode === 'dark'"
+                  src="@/assets/icons/dna.png"
+              ></v-img>
+              <v-img
+                  v-else
+                  src="@/assets/icons/dna-light.png"
+              ></v-img>
             </v-list-item-avatar>
 
             <v-list-item-content class="name">
@@ -72,15 +77,16 @@ const axios = require('axios')
         mode: function() {
           return this.$store.state.mode
         },
-        to_show: function() {
+        resources: function() {
           if (this.shared_list === null || this.shared_list.length === 0) {
             return []
           }
-            return this.shared_list.filter(res => {
-                return res.resourceName.toLowerCase().includes(this.to_search.toLowerCase()) ||
-                  res.requesterName.toLowerCase().includes(this.to_search.toLowerCase()) ||
-                  res.scopeName.toLowerCase().includes(this.to_search.toLowerCase())
-            })
+
+          return this.shared_list.filter(res => {
+              return res.resourceName.toLowerCase().includes(this.to_search.toLowerCase()) ||
+                res.requesterName.toLowerCase().includes(this.to_search.toLowerCase()) ||
+                res.scopeName.toLowerCase().includes(this.to_search.toLowerCase())
+          })
         }
     }
   }

@@ -5,16 +5,23 @@
                 <h2 class="subtitle">Field Mappings</h2>
             </v-col>
             <v-col class="text-right">
-                <v-btn
-                 color="primary"
-                 class="mx-2 postIcon"
-                 :right="true"
-                 :absolute="true"
-                 :dark="(mode === 'dark')"
-                 v-on:click="update_mappings">
-                    <v-icon :dark="(mode === 'dark')">mdi-floppy</v-icon>
-                    Save Mappings
-                </v-btn>
+                <v-tooltip bottom>
+                    <template v-slot:activator="{ on, attrs }">
+                        <v-btn
+                        color="primary"
+                        class="mx-2 postIcon"
+                        :right="true"
+                        :absolute="true"
+                        :dark="(mode === 'dark')"
+                        v-bind="attrs"
+                        v-on="on"
+                        v-on:click="update_mappings">
+                            <v-icon :dark="(mode === 'dark')">mdi-floppy</v-icon>
+                            Save Mappings
+                        </v-btn>
+                    </template>
+                    Save current mappings to selected study
+                </v-tooltip>
             </v-col>
         </v-row>
         <v-container fluid>

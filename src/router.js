@@ -10,11 +10,11 @@ const router = new VueRouter({
     mode: 'history',
     base: VueConfig.publicPath,
     routes: [
-        { path: '/requests', name: "requests", component: ResourceRequests },
         { path: '/resources', name:"resources", component: MyResources },
+        { path: '/requests', name: "requests", component: ResourceRequests },
         { path: '/shared', name: "shared", component: SharedWithMe },
         { path: '/manage', name: "manage", component: StudyManagement },
-        { path: '*', redirect: 'requests' },
+        { path: '*', redirect: 'resources' },
     ]
 })
 
