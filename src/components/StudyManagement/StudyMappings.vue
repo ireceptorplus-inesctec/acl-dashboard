@@ -25,16 +25,16 @@
             </v-col>
         </v-row>
         <v-container fluid>
-        <v-layout v-if="current_study.mappings" align-start justify-center>
-            <div v-for="(scope, index) in tree_list" :key="scope.scope" class="one_tree_column">
-                <v-list two-line :class="[class_types[index % 2], (mode === 'dark') ? 'dark' : 'light']">
-                    <h3 class="scopeTitle" :class="(mode === 'dark') ? 'dark' : 'light'">
-                    {{scope.scope}}
-                    </h3>
-                    <v-treeview-draggable v-model="scope.tree" group="mappings" :scope="scope.scope" :add_leaf="add_leaf" :remove_leaf="remove_leaf" :classes="classes"></v-treeview-draggable>
-                </v-list>
-            </div>
-        </v-layout>
+            <v-layout v-if="current_study.mappings" align-start justify-center>
+                <div v-for="(scope, index) in tree_list" :key="scope.scope" class="one_tree_column">
+                    <v-list two-line :class="[class_types[index % 2], (mode === 'dark') ? 'dark' : 'light']">
+                        <h3 class="scopeTitle" :class="(mode === 'dark') ? 'dark' : 'light'">
+                        {{scope.scope}}
+                        </h3>
+                        <v-treeview-draggable v-model="scope.tree" group="mappings" :scope="scope.scope" :add_leaf="add_leaf" :remove_leaf="remove_leaf" :classes="classes"></v-treeview-draggable>
+                    </v-list>
+                </div>
+            </v-layout>
         </v-container>
     </v-main>
 </template>

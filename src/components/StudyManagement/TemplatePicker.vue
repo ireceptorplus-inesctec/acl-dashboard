@@ -49,10 +49,18 @@
             </v-col>
         </v-row>
         <new-template-dialog
-            :open="new_template_open"
+            v-model="new_template_open"
             v-on:close="new_template_close"
             v-on:input="new_template_close"
         ></new-template-dialog>
+        <v-snackbar v-model="snackbar">
+            {{ snackbar_text }}
+            <template v-slot:action="{ attrs }">
+                <v-btn text v-bind="attrs" @click="snackbar = false">
+                Close
+                </v-btn>
+            </template>
+        </v-snackbar>
     </div>
 </template>
 
@@ -70,6 +78,8 @@ export default {
             templates: null,
             templates_names: null,
             new_template_open: false,
+            snackbar: false,
+            snackbar_text: ""
         };
     },
     props: {
@@ -151,12 +161,15 @@ export default {
                 "templates";
             axios
                 .post(url, post_template)
-                .then((response) => {
-                    console.log(response);
+                .then(() => {
+                    this.snackbar_text = `Template ${name} created successfully`;
+                    this.snackbar = true;
                     this.get_templates();
                 })
                 .catch((e) => {
-                    console.log(e);
+                    this.snackbar_text = `An error occured while creating the template.`;
+                    this.snackbar = true;
+                    console.error(e);
                 });
         },
         delete_template() {
@@ -175,12 +188,15 @@ export default {
                 filtered[0].id;
             axios
                 .delete(url)
-                .then((response) => {
-                    console.log(response);
+                .then(() => {
+                    this.snackbar_text = `Template deleted successfully`;
+                    this.snackbar = true;
                     this.get_templates();
                 })
                 .catch((e) => {
-                    console.log(e);
+                    this.snackbar_text = `An error occured while deleting the template.`;
+                    this.snackbar = true;
+                    console.error(e);
                 });
         },
     },

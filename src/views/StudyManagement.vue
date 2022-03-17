@@ -27,13 +27,8 @@
         <study-mappings :current_study="current_study" v-on:change_tree="change_tree" v-on:update_mappings="update_mappings" :snackbar="snackbar" :snackbar_text="snackbar_text"></study-mappings>
       </div>
     </div>
-    <v-snackbar
-      v-model="snackbar"
-      :timeout="timeout"
-      color="blue-grey"
-    >
+    <v-snackbar v-model="snackbar">
       {{ snackbar_text }}
-
       <template v-slot:action="{ attrs }">
         <v-btn
           color="blue"
@@ -69,8 +64,7 @@ const axios = require('axios')
         color: "#3A3A3A",
         mappings: null,
         snackbar: false,
-        snackbar_text: "",
-        timeout: 3000
+        snackbar_text: ""
       }
     },
     methods: {
