@@ -214,7 +214,7 @@ export default {
             axios
                 .post(url, "")
                 .then(() => {
-                    this.$emit("refresh");
+                    this.$emit("refreshall");
                 })
                 .catch(() => {
                     alert("Error changing owner, maybe user doesn't exist?");

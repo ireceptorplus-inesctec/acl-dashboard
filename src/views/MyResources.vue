@@ -1,6 +1,6 @@
 <template>
   <div id="resources">
-    <ResourcesList class="list" :resources=resources :selected=selected @select-resource="change_selected" @refresh="get_details"></ResourcesList>
+    <ResourcesList class="list" :resources=resources :selected=selected @select-resource="change_selected" @refresh="get_details" @refreshall="refreshall"></ResourcesList>
     <ResourceDetails class="details" :resources=resources :selected=selected :details=details @refresh="get_details"></ResourceDetails>
   </div>
 </template>
@@ -24,7 +24,7 @@ export default {
         }
     },
     methods: {
-        get_my_requests () {
+        get_my_resources () {
             let url = process.env.VUE_APP_MIDDLEWARE_URL + process.env.VUE_APP_AUTHZ_BASE_PATH + 'own_resources'
 
             axios.get(url)
@@ -77,6 +77,10 @@ export default {
           .catch(() => {
               this.details = null
           })
+        },
+        refreshall() {
+          this.selected = null
+          this.get_my_resources()
         }
     },
     watch: {
@@ -87,7 +91,7 @@ export default {
         }
     },
     mounted () {
-        this.get_my_requests()
+        this.get_my_resources()
     }
 }
 </script>
