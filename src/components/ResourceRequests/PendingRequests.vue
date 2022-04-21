@@ -1,46 +1,38 @@
 <template>
     <div class="pending">
         <h1 v-if="pending_list !== null && pending_list.length > 0" class="title">Pending requests</h1>
-        <h1 v-else class="title">No requests to show</h1>
+        <h1 v-else class="no-content">No requests to show</h1>
         <div class="listing" v-if="pending_list !== null && pending_list.length > 0">
-            <v-text-field
-                v-model="to_search"
-                label="Search"
-                clearable>
-                    <label>name/scope</label>
+            <v-text-field  v-model="to_search" label="Search" clearable>
+                <label>name/scope</label>
             </v-text-field>
-            <v-list
-             :style="(mode === 'dark') ? 'background: #37474F;' : 'background: #ffffff;'"
-             rounded
-             three-line
-             avatar>
-                <v-list-item
-                 v-for="(pending, index) in to_show"
-                 :key="index"
-                 link
-                 :id="pending.id">
-                     <v-list-item-avatar class="avatar">
-                        <v-img src="@/assets/icons/dna.png"></v-img>
-                     </v-list-item-avatar>
+            <v-list :style="(mode === 'dark') ? 'background: #37474F;' : 'background: #ffffff;'" avatar>
+                <template v-for="(pending, index) in to_show">
+                    <v-list-item :key="index" :id="pending.id" link>
+                        <v-list-item-avatar>
+                            <v-img src="@/assets/icons/dna-light.png"></v-img>
+                        </v-list-item-avatar>
 
-                     <v-list-item-content class="name">
-                         <v-list-item-title>{{ pending.resourceName }}</v-list-item-title>
-                         <v-list-item-title>by {{ pending.requesterName }}</v-list-item-title>
-                     </v-list-item-content>
+                        <v-list-item-content>
+                            <v-list-item-title>{{ pending.resourceName }}</v-list-item-title>
+                            <v-list-item-title>by <strong>{{ pending.requesterName }}</strong></v-list-item-title>
+                        </v-list-item-content>
 
-                     <v-list-item-content>
-                         <v-list-item-subtitle>Scope:</v-list-item-subtitle>
-                         <p>{{ pending.scopeName }}</p>
-                     </v-list-item-content>
+                        <v-list-item-content>
+                            <v-list-item-subtitle>Scope:</v-list-item-subtitle>
+                            <strong>{{ pending.scopeName }}</strong>
+                        </v-list-item-content>
 
-                    <v-list-item-content class="accept" v-on:click="accept(index)">
-                        <v-icon large class="accico">check</v-icon>
-                    </v-list-item-content>
-
-                    <v-list-item-content class="deny" v-on:click="deny(index)">
-                        <v-icon large class="denico">close</v-icon>
-                    </v-list-item-content>
-                </v-list-item>
+                        <v-list-item-action class="actions">
+                            <v-btn class="ma-2 action-btn" small color="primary" v-on:click="accept(index)">
+                            Accept
+                            </v-btn>
+                            <v-btn class="ma-2 action-btn" small color="red lighten-3" v-on:click="deny(index)">
+                            Deny
+                            </v-btn>
+                        </v-list-item-action>
+                    </v-list-item>
+                </template>
             </v-list>
         </div>
     </div>
@@ -68,8 +60,10 @@ export default {
             .then((response) => {
                 this.pending_list = response.data
             })
-            .catch(() => {
+            .catch((e) => {
                 this.pending_list = []
+                alert("An error occurred while trying to acquire pending requests.")
+                console.log(e)
             })
         },
         accept(index) {
@@ -85,8 +79,9 @@ export default {
             .then(() => {
                 this.get_pending_requests()
             })
-            .catch(() => {
+            .catch((e) => {
                 alert('Error accepting request')
+                console.log(e)
             })
         },
         deny(index) {
@@ -98,8 +93,9 @@ export default {
             .then(() => {
                 this.get_pending_requests()
             })
-            .catch(() => {
+            .catch((e) => {
                 alert('Error denying request')
+                console.log(e)
             })
         }
     },
@@ -129,39 +125,17 @@ export default {
         padding: 5%;
     }
 
-    .title {
+    .no-content {
         text-align: center;
         font-size: 300%;
     }
 
-    .avatar {
-        margin: 0 !important;
-        position: absolute;
-        left: 5%;
-        top: 50%;
-        -ms-transform: translateY(-50%);
-        transform: translateY(-50%);
+    .actions {
+        align-items: normal;
+        flex-direction: row;
     }
 
-    .name {
-        margin-left: 15%;
-    }
-
-    .accept {
-        margin: 0 !important;
-        position: absolute;
-        right: 12%;
-        top: 50%;
-        -ms-transform: translateY(-50%);
-        transform: translateY(-50%);
-    }
-
-    .deny {
-        margin: 0 !important;
-        position: absolute;
-        right: 5%;
-        top: 50%;
-        -ms-transform: translateY(-50%);
-        transform: translateY(-50%);
+    .action-btn {
+        margin: 2px !important;
     }
 </style>

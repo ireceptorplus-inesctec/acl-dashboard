@@ -1,6 +1,6 @@
 <template>
   <div id="resources">
-    <ResourcesList class="list" :resources=resources :selected=selected @select-resource="change_selected" @refresh="get_details" @refreshall="refreshall"></ResourcesList>
+    <ResourcesList v-bind:class="{'list': !details, 'list list-with-details': details}" :resources=resources :selected=selected @select-resource="change_selected" @refresh="get_details" @refreshall="refreshall"></ResourcesList>
     <ResourceDetails class="details" :resources=resources :selected=selected :details=details @refresh="get_details"></ResourceDetails>
   </div>
 </template>
@@ -103,16 +103,20 @@ export default {
 
   .list {
     height: 100%;
-    width: 60%;
+    width: 100%;
     position: absolute;
     top: 0;
     left: 0;
     overflow-x: hidden;
   }
 
+  .list-with-details {
+    width: 70%;
+  }
+
   .details {
     height: 100%;
-    width: 40%;
+    width: 30%;
     position: absolute;
     top: 0;
     right: 0;

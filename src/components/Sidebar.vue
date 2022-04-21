@@ -45,12 +45,12 @@
                     <v-list-item-title>{{ item.title }}</v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
-            <v-switch
+            <!--<v-switch
                 v-model="modeswitch"
                 flat
                 :label="`Dark Mode (${mode === 'dark' ? 'ON' : 'OFF'})`"
                 class="themetoggle"
-            ></v-switch>
+            ></v-switch>-->
         </v-navigation-drawer>
     </v-card>
 </template>

@@ -48,7 +48,7 @@
                             }}</v-list-item-title>
                         </v-list-item-content>
                         <v-list-item-content class="avatar">
-                            <v-icon v-if="selected == index">close</v-icon>
+                            <v-btn color="default" small v-if="selected == index">Close</v-btn>
                             <v-icon v-else>arrow_forward_ios</v-icon>
                         </v-list-item-content>
                     </v-list-item>
@@ -198,6 +198,10 @@ export default {
             });
         },
         change_owner(index) {
+            if (!confirm("You are about to change the ownership of this resource to another user. You will no longer be able to access it directly.\nAre you sure you want to proceed?"))  {
+                return;
+            }
+
             if (!this.to_share_with) {
                 alert("Invalid user");
                 return;
