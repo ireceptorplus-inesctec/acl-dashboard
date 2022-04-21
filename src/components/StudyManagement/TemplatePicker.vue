@@ -15,6 +15,8 @@
                 <v-tooltip bottom>
                     <template v-slot:activator="{ on, attrs }">
                         <v-btn
+                            class="white--text"
+                            color="blue-grey darken-2"
                             :dark="mode === 'dark'"
                             small
                             v-on:click="save_template"
@@ -33,6 +35,8 @@
                 <v-tooltip bottom>
                     <template v-slot:activator="{ on, attrs }">
                         <v-btn
+                            class="white--text"
+                            color="red darken-2"
                             :dark="mode === 'dark'"
                             small
                             v-on:click="delete_template"
@@ -173,7 +177,7 @@ export default {
                 });
         },
         delete_template() {
-            if (!confirm("Do you really want to delete?")) return;
+            if (!confirm("Are you sure you want to delete the selected template?")) return;
             var filtered = this.templates.filter(
                 (e) => e.name == this.template
             );

@@ -171,11 +171,6 @@ const axios = require('axios')
     overflow-x: hidden;
   }
 
-  .title {
-    text-align: center;
-    font-size: 300%;
-  }
-
   .subtitle {
     margin-top: 1%;
     font-size: 150%;

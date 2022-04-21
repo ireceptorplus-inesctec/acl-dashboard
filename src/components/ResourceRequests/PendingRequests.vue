@@ -1,7 +1,7 @@
 <template>
     <div class="pending">
         <h1 v-if="pending_list !== null && pending_list.length > 0" class="title">Pending requests</h1>
-        <h1 v-else class="no-content">No requests to show</h1>
+        <h1 v-else class="title">There are currently no pending requests</h1>
         <div class="listing" v-if="pending_list !== null && pending_list.length > 0">
             <v-text-field  v-model="to_search" label="Search" clearable>
                 <label>name/scope</label>
@@ -27,7 +27,7 @@
                             <v-btn class="ma-2 action-btn" small color="primary" v-on:click="accept(index)">
                             Accept
                             </v-btn>
-                            <v-btn class="ma-2 action-btn" small color="red lighten-3" v-on:click="deny(index)">
+                            <v-btn class="ma-2 action-btn white--text" small color="red lighten-1" v-on:click="deny(index)">
                             Deny
                             </v-btn>
                         </v-list-item-action>
@@ -123,11 +123,6 @@ export default {
 <style scoped>
     .pending {
         padding: 5%;
-    }
-
-    .no-content {
-        text-align: center;
-        font-size: 300%;
     }
 
     .actions {

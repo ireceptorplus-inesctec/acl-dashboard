@@ -10,6 +10,7 @@ import keycloak from './plugins/keycloak'
 import vuetify from './plugins/vuetify';
 
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
+
 const axios = require('axios')
 
 Vue.config.productionTip = false

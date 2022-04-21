@@ -1,8 +1,8 @@
 <template>
-    <v-main>
+    <div>
         <v-row>
             <v-col>
-                <h2 class="subtitle">Field Mappings</h2>
+                <span class="title">Field Mappings</span>
             </v-col>
             <v-col class="text-right">
                 <v-tooltip bottom>
@@ -10,8 +10,6 @@
                         <v-btn
                         color="primary"
                         class="mx-2 postIcon"
-                        :right="true"
-                        :absolute="true"
                         :dark="(mode === 'dark')"
                         v-bind="attrs"
                         v-on="on"
@@ -36,7 +34,7 @@
                 </div>
             </v-layout>
         </v-container>
-    </v-main>
+    </div>
 </template>
 
 <script>

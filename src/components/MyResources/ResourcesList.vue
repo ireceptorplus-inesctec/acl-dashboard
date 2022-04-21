@@ -43,20 +43,19 @@
                         </v-list-item-avatar>
 
                         <v-list-item-content>
-                            <v-list-item-title>{{
-                                resource.name
-                            }}</v-list-item-title>
+                            <v-list-item-title>{{resource.name}}</v-list-item-title>
                         </v-list-item-content>
+
                         <v-list-item-content class="avatar">
                             <v-btn color="default" small v-if="selected == index">Close</v-btn>
                             <v-icon v-else>arrow_forward_ios</v-icon>
                         </v-list-item-content>
                     </v-list-item>
                     <div v-if="selected == index">
-                        <h2 class="resource-label">Resource Details</h2>
-                        <h2 class="resource-title">
+                        <h2 class="resource-label">Name</h2>
+                        <div class="resource-title">
                             {{ resources[selected].name }}
-                        </h2>
+                        </div>
 
                         <h2 class="resource-label">Share Resource</h2>
                         <v-select
@@ -74,13 +73,15 @@
                         />
 
                         <v-btn
-                            class="mx-2 button btn-submit"
+                            color="primary"
+                            class="mx-2 button btn-submit white--text"
                             @click="share_with(index)"
                         >
                             <v-icon :dark="mode === 'dark'">add</v-icon> Share
                         </v-btn>
                         <v-btn
-                            class="mx-2 button btn-submit"
+                            color="blue-grey"
+                            class="mx-2 button btn-submit white--text"
                             @click="change_owner(index)"
                         >
                             <v-icon :dark="mode === 'dark'">swap_horiz</v-icon>
@@ -266,15 +267,6 @@ export default {
 <style scoped>
 .v-list-item-content {
     flex: 0;
-}
-
-.resources_list {
-    padding: 5%;
-}
-
-.title {
-    text-align: center;
-    font-size: 300%;
 }
 
 .resource-label {

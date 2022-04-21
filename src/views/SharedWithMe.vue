@@ -15,8 +15,8 @@
         <v-list-item
         v-for="(shared, index) in resources"
         :key="index"
-        link
-        :id="shared.id">
+        :id="shared.id"
+        link>
             <v-list-item-avatar class="avatar">
               <v-img
                   v-if="mode === 'dark'"
@@ -94,18 +94,7 @@ const axios = require('axios')
 
 <style scoped>
   .shared {
-    height: 100%;
-    width: 50%;
-    position: absolute;
-    top: 0;
-    left: 0;
     padding: 5%;
-    overflow-x: hidden;
-  }
-
-  .title {
-    text-align: center;
-    font-size: 300%;
   }
 
   .avatar {
