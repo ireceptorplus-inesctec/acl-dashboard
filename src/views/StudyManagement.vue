@@ -9,17 +9,10 @@
 
     <div class="listing">
       <v-row>
-        <v-col
-          cols="12"
-          sm="6"
-          md="7"
-        >
+        <v-col cols="8">
           <study-picker v-on:select_study="show_study"></study-picker>
         </v-col>
-        <v-col
-          cols="6"
-          md="5"
-        >
+        <v-col cols="4">
           <template-picker :is_study="is_study" v-on:select_template="show_template" :get_mappings_from_tree="get_mappings_from_tree"></template-picker>
         </v-col>
       </v-row>

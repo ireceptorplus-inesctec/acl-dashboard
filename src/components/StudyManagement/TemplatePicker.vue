@@ -1,7 +1,7 @@
 <template>
     <div v-if="is_study">
         <v-row class="template-buttons">
-            <v-col cols="12" sm="6" md="10">
+            <v-col cols="8">
                 <v-select
                     v-model="template"
                     :items="templates_names"
@@ -11,7 +11,7 @@
                 >
                 </v-select>
             </v-col>
-            <v-col cols="6" md="1" align-self="center">
+            <v-col cols="4" align-self="center">
                 <v-tooltip bottom>
                     <template v-slot:activator="{ on, attrs }">
                         <v-btn
@@ -30,8 +30,6 @@
                     </template>
                     Save as new template
                 </v-tooltip>
-            </v-col>
-            <v-col cols="6" md="1" align-self="center">
                 <v-tooltip bottom>
                     <template v-slot:activator="{ on, attrs }">
                         <v-btn
