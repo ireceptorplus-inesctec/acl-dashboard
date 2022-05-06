@@ -8,7 +8,15 @@ Project runs on **Vue.js** using **keycloak-js** library to manage the authentic
 
 This project also uses the following main libraries: **axios**, **vue-router**, **vuedraggable**, **vuetify** and **vuex**
 
-## Getting started
+## Running with Docker
+
+A Docker image is availible at DockerHub: https://hub.docker.com/r/irpinesctec/acl-dashboard
+
+The `docker-compose-yml` file contains an example of which environment parameters need to be set.
+
+By default the service runs on **port 8080**.
+
+## Running Natively
 
 ```bash
 # clone the project
@@ -21,7 +29,7 @@ cd acl-dashboard
 npm install
 ```
 
-## Run in development mode
+### Run in development mode
 
 ```bash
 # edit environment variables
@@ -33,7 +41,7 @@ nano .env.local
 npm run serve
 ```
 
-## Build and minify for production
+### Build and minify for production
 
 ```bash
 # edit environment variables

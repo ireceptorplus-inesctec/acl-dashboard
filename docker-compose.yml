@@ -1,20 +1,12 @@
 version: '3'
 
-networks: 
-    dashboard_network:
-        external: true
-
-services: 
-    dashboard_acl_frontend:
-        hostname: dashboard_acl_frontend
-        container_name: dashboard_acl_frontend
-        image: dashboard_acl_frontend:latest
-        environment: 
-            VUE_APP_BACKEND_URL: dashboard_acl_backend/
-            VUE_APP_KEYCLOAK_URL: https://ireceptorplus.inesctec.pt/auth/
-            VUE_APP_KEYCLOAK_REALM: iReceptorPlus
-        networks: 
-            - dashboard_network
-        ports: 
-            - 9091:8080
+services:
+    acl-dashboard:
+        image: irpinesctec/acl-dashboard:latest
+        environment:
+            - VUE_APP_KEYCLOAK_REALM=master
+            - VUE_APP_KEYCLOAK_CLIENT_ID=acl-dashboard
+            - VUE_APP_MIDDLEWARE_URL=http://localhost:8080/
+            - VUE_APP_MAPPINGS_BASE_PATH=resource/
+            - VUE_APP_AUTHZ_BASE_PATH=authz/
         restart: always
