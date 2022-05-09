@@ -115,10 +115,7 @@ export default {
          */
         get_templates() {
             this.template = null;
-            let url =
-                process.env.VUE_APP_MIDDLEWARE_URL +
-                process.env.VUE_APP_MAPPINGS_BASE_PATH +
-                "templates";
+            let url = process.env.VUE_APP_MIDDLEWARE_URL +  "resource/templates";
             axios
                 .get(url)
                 .then((response) => {
@@ -157,12 +154,9 @@ export default {
                 name: name,
                 mappings: mappings,
             };
-            let url =
-                process.env.VUE_APP_MIDDLEWARE_URL +
-                process.env.VUE_APP_MAPPINGS_BASE_PATH +
-                "templates";
-            axios
-                .post(url, post_template)
+            let url = process.env.VUE_APP_MIDDLEWARE_URL +  "resource/templates";
+
+            axios.post(url, post_template)
                 .then(() => {
                     this.snackbar_text = `Template ${name} created successfully`;
                     this.snackbar = true;
@@ -184,9 +178,7 @@ export default {
                 return;
             }
             let url =
-                process.env.VUE_APP_MIDDLEWARE_URL +
-                process.env.VUE_APP_MAPPINGS_BASE_PATH +
-                "templates/" +
+                process.env.VUE_APP_MIDDLEWARE_URL + "resource/templates/" +
                 filtered[0].id;
             axios
                 .delete(url)

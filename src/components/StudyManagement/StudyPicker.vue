@@ -30,7 +30,8 @@ const axios = require('axios')
              * Requests and retreives all studies, placing the response in studies
              */
             get_studies () {
-                let url = process.env.VUE_APP_MIDDLEWARE_URL + process.env.VUE_APP_AUTHZ_BASE_PATH + 'own_resources'
+                let url = process.env.VUE_APP_MIDDLEWARE_URL + 'authz/own_resources'
+
                 axios.get(url)
                 .then((response) => {
                     this.studies = response.data

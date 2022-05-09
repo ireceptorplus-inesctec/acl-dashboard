@@ -171,9 +171,7 @@ export default {
             }
 
             let url =
-                process.env.VUE_APP_MIDDLEWARE_URL +
-                process.env.VUE_APP_AUTHZ_BASE_PATH +
-                "give_access/null";
+                process.env.VUE_APP_MIDDLEWARE_URL + "authz/give_access/null";
 
             this.selected_scopes.forEach((scope) => {
                 let data =
@@ -209,9 +207,7 @@ export default {
             }
 
             let url =
-                process.env.VUE_APP_MIDDLEWARE_URL +
-                process.env.VUE_APP_AUTHZ_BASE_PATH +
-                "change_owner/" +
+                process.env.VUE_APP_MIDDLEWARE_URL + "authz/change_owner/" +
                 this.resources[index]._id +
                 "/" +
                 this.to_share_with;

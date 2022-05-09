@@ -1,6 +1,6 @@
 # acl-dashboard
 
-Access control dashboard for an easy and interactive management of user-based permissions on the [ADC Middleware](https://github.com/ireceptorplus-inesctec/adc-middleware)
+Access control dashboard for interactive management of user-based permissions of AIRR repositories protected by the [adc-middleware](https://github.com/ireceptorplus-inesctec/adc-middleware)
 
 The access is managed via a set of authorization profiles (*public*, *statistics* and *raw_sequence*), refered as scoped throughout the document
 
@@ -56,12 +56,11 @@ npm run build
 Note the *.env.local* and *.env.production* override *.env*
 
 ## Environment variables (default)
+- PUBLIC_PATH: Defines the base path for the application.
 - VUE_APP_KEYCLOAK_URL: Keycloak's base URL (http://localhost:8082/auth/)
 - VUE_APP_KEYCLOAK_REALM: Keycloak's realm (master)
 - VUE_APP_KEYCLOAK_CLIENT_ID: Keycloak's dashboard client id (acl-dashboard)
 - VUE_APP_MIDDLEWARE_URL: ADC Middleware's base URL (http://localhost:8080/)
-- VUE_APP_MAPPINGS_BASE_PATH: ADC Middleware's field mappings base path (resource/)
-- VUE_APP_AUTHZ_BASE_PATH: ADC Middleware's dashboard backend base path (authz/)
 
 ## Features
 
@@ -112,7 +111,7 @@ Note the *.env.local* and *.env.production* override *.env*
 ![Resource details](./docs/resource_details.png)
 
 - **Shared with me**
-  - As a user you can see a page with every study shared with you, with an entry for each scope you have access. The owner of each study is also represented on each entry, making it easy to search for a specific resource. 
+  - As a user you can see a page with every study shared with you, with an entry for each scope you have access. The owner of each study is also represented on each entry, making it easy to search for a specific resource.
 
 ![Shared with me](./docs/shared_with_me.png)
 

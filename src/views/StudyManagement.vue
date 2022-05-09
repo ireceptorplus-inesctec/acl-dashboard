@@ -67,7 +67,7 @@ const axios = require('axios')
        */
       show_study (study_id) {
         this.is_study = study_id
-        let url = process.env.VUE_APP_MIDDLEWARE_URL + process.env.VUE_APP_MAPPINGS_BASE_PATH + 'study/' + study_id
+        let url = process.env.VUE_APP_MIDDLEWARE_URL + 'resource/study/' + study_id
         axios.get(url)
         .then((response) => {
           this.current_study = response.data
@@ -81,7 +81,7 @@ const axios = require('axios')
        * @param template_id Requesting template id
        */
       show_template(template_id) {
-        let url = process.env.VUE_APP_MIDDLEWARE_URL + process.env.VUE_APP_MAPPINGS_BASE_PATH + 'templates/' + template_id
+        let url = process.env.VUE_APP_MIDDLEWARE_URL + 'resource/templates/' + template_id
         axios.get(url)
         .then((response) => {
           this.current_study.mappings = response.data.mappings
@@ -133,7 +133,7 @@ const axios = require('axios')
       update_mappings() {
         var mapp = this.get_mappings_from_tree()
         this.current_study.mappings = mapp
-        let url = process.env.VUE_APP_MIDDLEWARE_URL + process.env.VUE_APP_MAPPINGS_BASE_PATH + 'study/' + this.current_study.id
+        let url = process.env.VUE_APP_MIDDLEWARE_URL + 'resource/study/' + this.current_study.id
         axios.put(url, this.current_study)
         .then(() => {
           this.snackbar_text = "Mappings updated successfully"
