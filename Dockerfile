@@ -1,23 +1,12 @@
-FROM node:16.15.0-alpine3.15
-
-ENV BUILD_ENV=docker
-
+FROM node:16.15.0-alpine3.15 as build-stage
 WORKDIR /app
-
 COPY package*.json ./
-
-RUN npm install -g http-server
-
 RUN npm install
-
 COPY . .
-
 RUN npm run build-docker
 
-RUN rm -r node_modules .git
-
-RUN npm cache clean --force
-
-RUN chmod +x scripts/run_docker.sh
-
-CMD [ "sh", "./scripts/run_docker.sh" ]
+FROM nginx:stable-alpine as production-stage
+COPY --from=build-stage /app/dist /usr/share/nginx/html
+COPY --from=build-stage /app/scripts /tmp/scripts
+COPY --from=build-stage /app/scripts/default.conf /etc/nginx/conf.d/default.conf
+CMD [ "sh", "/tmp/scripts/run_docker.sh" ]

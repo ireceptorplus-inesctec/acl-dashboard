@@ -2,7 +2,7 @@
 
 echo "Replacing env constants in JS"
 
-for file in dist/js/app.*.js* dist/$ROOT_DIR/index.html dist/precache-manifest*.js;
+for file in /usr/share/nginx/html/js/app*.js* /usr/share/nginx/html/index.html;
 do
   echo "Processing $file ...";
 
@@ -13,7 +13,6 @@ do
   sed -i 's|VUE_APP_MIDDLEWARE_URL_DOCKER|'${VUE_APP_MIDDLEWARE_URL}'|g' $file
 done
 
-echo "Here's the public path"
-echo $PUBLIC_PATH
+echo "Public Path configured to: $PUBLIC_PATH"
 
-http-server dist
+nginx -g 'daemon off;'

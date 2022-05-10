@@ -3,7 +3,13 @@ var publicPath = "/";
 if (process.env.PUBLIC_PATH) {
   publicPath = process.env.PUBLIC_PATH;
 } else {
-  publicPath = (process.env.NODE_ENV === 'production')  ? '/acl-dashboard/'  : '/'
+  if (process.env.NODE_ENV === 'production') {
+    publicPath = "/acl-dashboard/";
+  } else if (process.env.NODE_ENV === 'docker') {
+    publicPath = "PUBLIC_PATH_DOCKER";
+  } else {
+    publicPath = "/";
+  }
 }
 
 module.exports = {

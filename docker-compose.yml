@@ -10,5 +10,5 @@ services:
             - VUE_APP_KEYCLOAK_CLIENT_ID=acl-dashboard
             - VUE_APP_MIDDLEWARE_URL=http://localhost:8080/
         ports:
-            - 8086:8080
+            - 8086:80
         restart: always
