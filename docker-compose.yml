@@ -2,13 +2,11 @@ version: '3'
 
 services:
     acl-dashboard:
-        image: irpinesctec/acl-dashboard:local
+        image: irpinesctec/acl-dashboard
         environment:
             - PUBLIC_PATH=
             - VUE_APP_KEYCLOAK_URL=http://localhost:8082/auth/
             - VUE_APP_KEYCLOAK_REALM=master
             - VUE_APP_KEYCLOAK_CLIENT_ID=acl-dashboard
             - VUE_APP_MIDDLEWARE_URL=http://localhost:8080/
-        ports:
-            - 8086:80
         restart: always
