@@ -10,11 +10,11 @@ This project also uses the following main libraries: **axios**, **vue-router**, 
 
 ## Running with Docker
 
-A Docker image is availible at DockerHub: https://hub.docker.com/r/irpinesctec/acl-dashboard
+A Docker image is available at DockerHub: https://hub.docker.com/r/irpinesctec/acl-dashboard
 
-The `docker-compose-yml` file contains an example of which environment parameters need to be set.
+The `docker-compose.yml` file contains an example of which environment parameters need to be set.
 
-By default the service runs on **port 8080**.
+By default the service runs on **port 80**.
 
 ## Running Natively
 
@@ -89,7 +89,7 @@ Note the *.env.local* and *.env.production* override *.env*
   - **Share (specific scope from a) resource with another user** - an owner can share a resource with any user via username or email, selecting the wanted access scopes
   - **Transfer resource ownership to another user** - an owner can revoke the ownership of a resource by sharing it with any user via username or email, making the new user the new owner of the resource
   - **Update field mappings for each study** - an owner can configure which study fields are shared with each scope, customizing how the study is shared with the remaining users
-    - **Create/Delete/Use templates** - an owner can utilize templates to avoid recreating and reutilize field mapping schemes, being able to create and delete them as well
+    - **Create/Delete/Use templates** - an owner can utilize templates to avoid recreating and reutilizes field mapping schemes, being able to create and delete them as well
 
 - **All users**
   - **List resources shared with them** - a user can list all the resources that are shared with him, viewing the access scopes he was granted for each resource
@@ -116,7 +116,7 @@ Note the *.env.local* and *.env.production* override *.env*
 ![Shared with me](./docs/shared_with_me.png)
 
 - **Manage Studies**
-  - In this page you will first be prompted to select one of the studies you own on a dropdown tab. After selecting the study, a tree-like grid will appear for each scope, this grid represents how the study fields are mapped to each scope. As a resource owner you can drag any field (parent, leaf, whole tree) and customize its level of security or shareability, making each field accessible with the permission you feel adequate.
+  - In this page you will first be prompted to select one of the studies you own on a drop-down tab. After selecting the study, a tree-like grid will appear for each scope, this grid represents how the study fields are mapped to each scope. As a resource owner you can drag any field (parent, leaf, whole tree) and customize its level of security or how it is shared, making each field accessible with the permission you feel adequate.
 
 ![Field mappings](./docs/field_mappings.png)
 
