@@ -76,8 +76,7 @@ const axios = require('axios')
              */
             get_scopes() {
                 let url = process.env.VUE_APP_MIDDLEWARE_URL + 'resource/scopes'
-                axios.get(url)
-                .then((response) => {
+                axios.get(url).then((response) => {
                     this.scopes = response.data
                 })
                 .catch(() => {
@@ -89,8 +88,7 @@ const axios = require('axios')
              */
             get_classes () {
                 let url = process.env.VUE_APP_MIDDLEWARE_URL + 'resource/class'
-                axios.get(url)
-                .then((response) => {
+                axios.get(url).then((response) => {
                     this.classes = response.data
                 })
                 .catch(() => {
@@ -102,8 +100,7 @@ const axios = require('axios')
              */
             get_fields() {
                 let url = process.env.VUE_APP_MIDDLEWARE_URL + 'resource/fields'
-                axios.get(url)
-                .then((response) => {
+                axios.get(url).then((response) => {
                     this.fields = response.data
                 })
                 .catch(() => {

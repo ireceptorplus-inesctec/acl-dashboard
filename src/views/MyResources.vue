@@ -27,13 +27,12 @@ export default {
         get_my_resources () {
             let url = process.env.VUE_APP_MIDDLEWARE_URL + 'authz/own_resources'
 
-            axios.get(url)
-            .then((response) => {
-                this.resources = response.data
-                this.add_selected_property()
+            axios.get(url).then((response) => {
+              this.resources = response.data
+              this.add_selected_property()
             })
             .catch(() => {
-                this.resources = []
+              this.resources = []
             })
         },
         add_selected_property() {
@@ -54,26 +53,24 @@ export default {
 
           let data = 'resource_id=' + id
 
-          axios.post(url, data)
-          .then((response) => {
-              let temp_details = []
+          axios.post(url, data).then((response) => {
+            let temp_details = []
 
-              response.data.forEach((ticket) => {
-                let index = temp_details.findIndex(element => element['user'] == ticket['requesterName'])
-                if (index >= 0) {
-                    temp_details[index]['scopes'].push(ticket['scopeName'])
-                } else {
-                    temp_details.push({
-                        'user': ticket['requesterName'],
-                        'scopes': [
-                          ticket['scopeName']
-                        ]
-                    })
-                }
-              })
-              this.details = temp_details
-          })
-          .catch(() => {
+            response.data.forEach((ticket) => {
+              let index = temp_details.findIndex(element => element['user'] == ticket['requesterName'])
+              if (index >= 0) {
+                  temp_details[index]['scopes'].push(ticket['scopeName'])
+              } else {
+                  temp_details.push({
+                      'user': ticket['requesterName'],
+                      'scopes': [
+                        ticket['scopeName']
+                      ]
+                  })
+              }
+            })
+            this.details = temp_details
+          }).catch(() => {
               this.details = null
           })
         },

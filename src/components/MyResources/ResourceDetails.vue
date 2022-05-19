@@ -1,6 +1,12 @@
 <template>
     <div v-if="selected !== null" class="details_list">
         <h1 v-if="details && details.length > 0" class="title">Shared with</h1>
+        <div v-else-if="details === null" class="text-center">
+            <v-progress-circular
+                indeterminate
+                color="primary"
+            ></v-progress-circular>
+        </div>
         <h1 v-else class="title">Not being shared</h1>
         <div v-if="details !== null" class="listing">
             <v-list

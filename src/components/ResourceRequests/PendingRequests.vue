@@ -1,6 +1,12 @@
 <template>
     <div class="pending">
         <h1 v-if="pending_list !== null && pending_list.length > 0" class="title">Pending requests</h1>
+        <div v-else-if="pending_list === null" class="text-center">
+            <v-progress-circular
+                indeterminate
+                color="primary"
+            ></v-progress-circular>
+        </div>
         <h1 v-else class="title">There are currently no pending requests</h1>
         <div class="listing" v-if="pending_list !== null && pending_list.length > 0">
             <v-text-field  v-model="to_search" label="Search" clearable>

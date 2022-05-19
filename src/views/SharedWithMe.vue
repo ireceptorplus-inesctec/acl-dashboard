@@ -1,6 +1,12 @@
 <template>
   <div class="shared">
     <h1 v-if="shared_list !== null && shared_list.length > 0" class="title">Shared with me</h1>
+    <div v-else-if="shared_list === null" class="text-center">
+        <v-progress-circular
+            indeterminate
+            color="primary"
+        ></v-progress-circular>
+    </div>
     <h1 v-else class="title">No resources shared with me</h1>
     <div class="listing" v-if="shared_list !== null && shared_list.length > 0">
       <v-text-field

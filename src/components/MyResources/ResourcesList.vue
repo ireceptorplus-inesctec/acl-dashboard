@@ -3,6 +3,12 @@
         <h1 v-if="resources !== null && resources.length > 0" class="title">
             My resources
         </h1>
+        <div v-else-if="resources === null" class="text-center">
+            <v-progress-circular
+                indeterminate
+                color="primary"
+            ></v-progress-circular>
+        </div>
         <h1 v-else class="title">No resources owned</h1>
         <div class="listing" v-if="resources !== null && resources.length > 0">
             <v-text-field v-model="to_search" label="Search" clearable>
@@ -182,18 +188,15 @@ export default {
                     "&scope_name=" +
                     scope;
 
-                axios
-                    .post(url, data)
-                    .then(() => {
-                        this.$emit("refresh");
-                    })
-                    .catch(() => {
-                        alert(
-                            "Error giving access for " +
-                                scope +
-                                " scope, maybe you have a pending request for that permission?"
-                        );
-                    });
+                axios.post(url, data).then(() => {
+                    this.$emit("refresh");
+                }).catch(() => {
+                    alert(
+                        "Error giving access for " +
+                            scope +
+                            " scope. There could already be a pending request for that permission."
+                    );
+                });
             });
         },
         change_owner(index) {
@@ -212,14 +215,12 @@ export default {
                 "/" +
                 this.to_share_with;
 
-            axios
-                .post(url, "")
-                .then(() => {
-                    this.$emit("refreshall");
-                })
-                .catch(() => {
-                    alert("Error changing owner, maybe user doesn't exist?");
-                });
+            axios.post(url, "").then(() => {
+                this.$emit("refreshall");
+            })
+            .catch(() => {
+                alert("Error changing owner, maybe user doesn't exist?");
+            });
         },
     },
     computed: {

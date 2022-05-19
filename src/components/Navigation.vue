@@ -8,7 +8,7 @@
 
                 <v-list-item-content>
                     <v-list-item-title class="text-h6">{{ user_name }}</v-list-item-title>
-                    <v-list-item-subtitle v-if="user_mail">{{user_mail}}</v-list-item-subtitle>
+                    <v-list-item-subtitle v-if="user_mail">{{ user_mail }}</v-list-item-subtitle>
                 </v-list-item-content>
                 <v-list-item-avatar class="logout" v-on:click="logout()">
                     <v-tooltip bottom>
