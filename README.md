@@ -16,6 +16,19 @@ The `docker-compose.yml` file contains an example of which environment parameter
 
 By default the service runs on **port 8081**.
 
+## Building the Docker image manually
+
+The Docker image may be built using the following:
+
+- Normal image
+
+`docker build -t acl-dashboard .`
+
+- Http Server Image
+
+`docker build -t acl-dashboard -f .\DockerfileHttpServer .`
+
+
 ## Running Natively
 
 ```bash
