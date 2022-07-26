@@ -8,6 +8,7 @@ RUN npm run build
 
 WORKDIR /app
 RUN mv /build/dist .
+RUN rm -r /build
 
 EXPOSE 8081
 
