@@ -1,0 +1,14 @@
+FROM node:16.16-alpine3.16
+WORKDIR /build
+COPY package*.json ./
+RUN npm install -g http-server
+RUN npm install
+COPY . .
+RUN npm run build
+
+WORKDIR /app
+RUN mv /build/dist .
+
+EXPOSE 8081
+
+CMD [ "http-server", "dist" ]

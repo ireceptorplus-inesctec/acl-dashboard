@@ -14,7 +14,7 @@ A Docker image is available at DockerHub: https://hub.docker.com/r/irpinesctec/a
 
 The `docker-compose.yml` file contains an example of which environment parameters need to be set.
 
-By default the service runs on **port 80**.
+By default the service runs on **port 8081**.
 
 ## Running Natively
 
