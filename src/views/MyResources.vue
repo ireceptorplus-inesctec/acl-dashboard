@@ -63,6 +63,7 @@ export default {
               } else {
                   temp_details.push({
                       'user': ticket['requesterName'],
+                      'email': ticket['email'],
                       'scopes': [
                         ticket['scopeName']
                       ]
