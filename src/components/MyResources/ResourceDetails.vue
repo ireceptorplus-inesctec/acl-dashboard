@@ -21,6 +21,8 @@
                     <v-list-item-content class="permission-item">
                         <v-list-item-subtitle>Username:</v-list-item-subtitle>
                         <v-list-item-title>{{ detail.user }}</v-list-item-title>
+                        <v-list-item-subtitle v-if="detail.email">Email:</v-list-item-subtitle>
+                        <v-list-item-title>{{ detail.email }}</v-list-item-title>
                         <v-list-item-subtitle>Scopes:</v-list-item-subtitle>
                         <p v-for="(scope, i) in detail.scopes" :key="i">
                             {{ scope }}
